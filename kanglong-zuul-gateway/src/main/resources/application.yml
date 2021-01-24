@@ -1,0 +1,37 @@
+server:
+  port: 7777
+spring:
+  application:
+    name: zuul-gateway
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8888/eureka
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+zuul:
+  # 添加路由前缀
+  prefix: /zuul
+  retryable: true
+ribbon:
+  # 连接超时时间(ms)
+  ConnectTimeout: 250
+  # 通信超时时间(ms)
+  ReadTimeout: 2000
+  # 是否对所有操作重试
+  OkToRetryOnAllOperations: true
+  # 同一服务不同实例的重试次数
+  MaxAutoRetriesNextServer: 1
+  # 同一实例的重试次数
+  MaxAutoRetries: 1
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 熔断超时时长：10000ms
+            timeoutInMillisecond: 10000
