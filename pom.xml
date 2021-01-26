@@ -28,6 +28,7 @@
         <mysql.version>5.1.43</mysql.version>
         <fastDFS.client.version>1.26.6</fastDFS.client.version>
         <druid.version>1.1.13</druid.version>
+        <pageHelper.version>1.2.5</pageHelper.version>
 
 <!--        <start-class>com.sephinor.kanglong.kanglongparent.KanglongParentApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -81,6 +82,12 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <!-- 分页助手 暂使用1.0.0版本-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pageHelper.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
