@@ -2,21 +2,25 @@ package com.sephinor.kanglong.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.sephinor.common.entity.Brand;
+import com.sephinor.common.exception.ExceptionType;
+import com.sephinor.common.exception.KangLongException;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kanglong.mapper.BrandMapper;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 品牌服务
  */
 @Service
 public class BrandService {
-	@Autowired
+	@Resource
 	private BrandMapper brandMapper ;
 
 
@@ -26,10 +30,25 @@ public class BrandService {
 	 * @return
 	 */
 	public Brand findById(Long id) {
-		Brand brand = new Brand() ;
-		brand.setId(id);
-		return brandMapper.selectOne(brand);
+		Brand brand = brandMapper.selectByPrimaryKey(id);
+		if(brand == null){
+			new Exception("商品信息无");
+		}
+		return brand;
+
 	}
+
+
+/*	// 按照Ids集合查询品牌
+	public List<Brand> findByIds(List<Long> ids){
+		List<Brand> list = brandMapper.findByIdList(ids);
+		if(CollectionUtils.isEmpty(list)){
+			throw  new KangLongException(ExceptionType.CATEGORY_NOT_FOUND);
+		}
+		return  list;
+	}*/
+
+
 
 	/**
 	 *  分页查询并排序

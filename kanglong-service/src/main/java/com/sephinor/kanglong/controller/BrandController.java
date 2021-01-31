@@ -1,7 +1,6 @@
 package com.sephinor.kanglong.controller;
 
 
-import com.netflix.discovery.converters.Auto;
 import com.sephinor.common.entity.Brand;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kanglong.service.BrandService;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * BrandController
@@ -34,6 +35,12 @@ public class BrandController {
 		System.out.println("查询结果为:"+result);
 		return  result;
 	}
+
+//	@GetMapping("findByIds")
+//	public ResponseEntity<List <Brand>> findByCid(@RequestParam("ids") List<Long> ids){
+//		return ResponseEntity.ok(BrandService.findByIds(ids));
+//	}
+
 
 	@GetMapping("paging")
 	public ResponseEntity<PageResult<Brand>> findPagingAndSortByName(@RequestParam(value = "pno", defaultValue = "1") Integer pno,
