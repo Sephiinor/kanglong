@@ -18,7 +18,7 @@ public enum ExceptionType {
     SPEC_GROUP_NOT_FOUND(404,"商品规格组没有查到"),
     SPEC_PARAM_NOT_FOUND(404,"商品规格参数不存在"),
     ITEM_NOT_FOUND (404,"商品不存在"),
-
+    BRAND_NOT_FOUND(404,"品牌不存在"),
 
     // ========= 500 ==========
     BRAND_SAVE_ERROR (500,"商品保存失败"),

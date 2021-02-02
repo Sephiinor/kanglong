@@ -1,6 +1,7 @@
 package com.sephinor.kanglong.controller;
 
 
+import com.netflix.discovery.converters.Auto;
 import com.sephinor.common.entity.Brand;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kanglong.service.BrandService;
@@ -28,6 +29,11 @@ public class BrandController {
 	@Autowired
 	private BrandService brandService ;
 
+	/**
+	 *  根据id查询商品信息
+	 * @param id 商品id
+	 * @return
+	 */
 	@GetMapping("find")
 	public Brand findById(@RequestParam(value = "bid") Long id){
 		logger.info("findbyId 入参为"+id);
@@ -36,10 +42,21 @@ public class BrandController {
 		return  result;
 	}
 
-//	@GetMapping("findByIds")
+    //	@GetMapping("findByIds")
 //	public ResponseEntity<List <Brand>> findByCid(@RequestParam("ids") List<Long> ids){
 //		return ResponseEntity.ok(BrandService.findByIds(ids));
 //	}
+
+	/**
+	 *  分页查询
+	 * @param pno 页数
+	 * @param rows 每页大小
+	 * @param sortBy 排序
+	 * @param desc 描述
+	 * @param name  商品名
+	 * @return
+	 */
+
 
 
 	@GetMapping("paging")
@@ -52,6 +69,11 @@ public class BrandController {
 			return new ResponseEntity<PageResult<Brand>>(HttpStatus.NOT_FOUND);
 		}
 		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("findByCid")
+	public ResponseEntity<List<Brand>> findByCid(@RequestParam("cid") Long cid){
+		return ResponseEntity.ok(brandService.findByCid(cid));
 	}
 
 }
