@@ -21,7 +21,7 @@ import java.util.List;
  * BrandController
  */
 @RestController
-@RequestMapping("brand")
+@RequestMapping("/brand")
 public class BrandController {
 
 	Logger logger = LoggerFactory.getLogger(BrandController.class);
@@ -34,18 +34,16 @@ public class BrandController {
 	 * @param id 商品id
 	 * @return
 	 */
-	@GetMapping("find")
-	public Brand findById(@RequestParam(value = "bid") Long id){
-		logger.info("findbyId 入参为"+id);
-		Brand  result =brandService.findById(id);
-		System.out.println("查询结果为:"+result);
-		return  result;
+	@GetMapping("/findbyid")
+	public ResponseEntity<Brand> findById(@RequestParam(value = "id") Long id){
+		return ResponseEntity.ok(brandService.findById(id)) ;
 	}
 
-    //	@GetMapping("findByIds")
-//	public ResponseEntity<List <Brand>> findByCid(@RequestParam("ids") List<Long> ids){
-//		return ResponseEntity.ok(BrandService.findByIds(ids));
-//	}
+
+	@GetMapping("findByIds")
+	public ResponseEntity<List <Brand>> findByCid(@RequestParam("ids") List<Long> ids){
+		return ResponseEntity.ok(brandService.findByIds(ids));
+	}
 
 	/**
 	 *  分页查询
@@ -59,7 +57,7 @@ public class BrandController {
 
 
 
-	@GetMapping("paging")
+	@GetMapping("/paging")
 	public ResponseEntity<PageResult<Brand>> findPagingAndSortByName(@RequestParam(value = "pno", defaultValue = "1") Integer pno,
 			@RequestParam(value = "rows", defaultValue = "10") Integer rows,@RequestParam(value = "sortBy", required = false) String sortBy,
 			@RequestParam(value = "desc", defaultValue = "false") Boolean desc, @RequestParam(value = "name", required = false) String name){
@@ -71,7 +69,7 @@ public class BrandController {
 		return ResponseEntity.ok(result);
 	}
 
-	@GetMapping("findByCid")
+	@GetMapping("/findByCid")
 	public ResponseEntity<List<Brand>> findByCid(@RequestParam("cid") Long cid){
 		return ResponseEntity.ok(brandService.findByCid(cid));
 	}

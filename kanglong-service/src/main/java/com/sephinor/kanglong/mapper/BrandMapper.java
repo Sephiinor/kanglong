@@ -27,6 +27,6 @@ public interface BrandMapper extends Mapper<Brand> , IdListMapper<Brand,Long>{
      */
     @Select("select b.* from t_category_brand a  left  outer join t_brand b on a.brand_id = b.id  where a.category_id" +
             " = #{cid}" )
-    List<Brand> findByCid(Long cid);
+    List<Brand> findByCid(@Param("cid")Long cid);
 
 }
