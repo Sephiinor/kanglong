@@ -9,6 +9,7 @@
         <module>kanglong-common</module>
         <module>kanglong-service</module>
         <module>kanglong-web</module>
+        <module>kanglong-service-api</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

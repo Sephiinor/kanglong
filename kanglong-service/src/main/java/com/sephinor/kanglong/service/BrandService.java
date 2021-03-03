@@ -44,14 +44,14 @@ public class BrandService {
 	}
 
 
-/*	// 按照Ids集合查询品牌
+	// 按照Ids集合查询品牌
 	public List<Brand> findByIds(List<Long> ids){
-		List<Brand> list = brandMapper.findByIdList(ids);
+		List<Brand> list = brandMapper.selectByIdList(ids) ;
 		if(CollectionUtils.isEmpty(list)){
 			throw  new KangLongException(ExceptionType.CATEGORY_NOT_FOUND);
 		}
 		return  list;
-	}*/
+	}
 
 
 
