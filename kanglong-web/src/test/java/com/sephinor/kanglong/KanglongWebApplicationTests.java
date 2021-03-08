@@ -1,4 +1,4 @@
-package com.sephinor.kanglong.kanglongweb;
+package com.sephinor.kanglong;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
