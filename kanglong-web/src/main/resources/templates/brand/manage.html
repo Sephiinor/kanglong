@@ -52,7 +52,7 @@
     </div>
     <div class="box-content">
     <div class="alert alert-info">
-        <a class="btn btn-info" href="#">
+        <a  id="a_btn_add_brand" class="btn btn-info" href="#">
             <i class="glyphicon glyphicon-plus-sign icon-white"></i>
             新增
         </a>
@@ -124,39 +124,6 @@
     </div><!--/#content.col-md-0-->
 </div><!--/fluid-row-->
 
-    <!-- Ad, you can remove it -->
-    <div class="row">
-        <div class="col-md-9 col-lg-9 col-xs-9 hidden-xs">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Charisma Demo 2 -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
-                 data-ad-client="ca-pub-5108790028230107"
-                 data-ad-slot="3193373905"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        <div class="col-md-2 col-lg-3 col-sm-12 col-xs-12 email-subscription-footer">
-            <div class="mc_embed_signup">
-                <form action="//halalit.us3.list-manage.com/subscribe/post?u=444b176aa3c39f656c66381f6&amp;id=eeb0c04e84" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                    <div>
-                        <label>Keep up with my work</label>
-                        <input type="email" value="" name="EMAIL" class="email" placeholder="Email address" required>
-
-                        <div class="power_field"><input type="text" name="b_444b176aa3c39f656c66381f6_eeb0c04e84" tabindex="-1" value=""></div>
-                        <div class="clear"><input type="submit" value="Subscribe" name="subscribe" class="button"></div>
-                    </div>
-                </form>
-            </div>
-
-            <!--End mc_embed_signup-->
-        </div>
-
-    </div>
-    <!-- Ad ends -->
-
-    <hr>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -165,15 +132,38 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h3>Settings</h3>
+                    <h4>新增/修改品牌</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Here settings can be configured...</p>
+                    <!--新增/修改品牌 -起始 -->
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="id">品牌ID</label>
+                            <input type="text" class="form-control" id="id" placeholder="请输入品牌ID">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">品牌名称</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入品牌名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="image">品牌LOGO</label>
+                            <input type="file" id="image" name="image">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="firstLetter">品牌首字母</label>
+                            <input type="text" class="form-control" id="firstLetter" placeholder="请输入品牌首字母">
+                        </div>
+                    </form>
+                    <!--/span-->
+                    <!--新增/修改品牌 -结束 -->
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
+                            <a href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
+                        </div>
+                    </div><!--/row-->
                 </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Close</a>
-                    <a href="#" class="btn btn-primary" data-dismiss="modal">Save changes</a>
-                </div>
+
             </div>
         </div>
     </div>
@@ -188,7 +178,14 @@
 
 </div><!--/.fluid-container-->
 <div th:include="~{tpl :: js}"></div>
-
+<script type="application/javascript">
+    <!--  新增点击事件  -->
+    $(function (){
+        $("#a_btn_add_brand").click(function (){
+            $('#myModal').modal('show');
+        })
+    })
+</script>
 
 </body>
 </html>
