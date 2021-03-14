@@ -15,7 +15,7 @@ public class App {
 
     public static void main(String[] args) {
         ApplicationContext ac = SpringApplication.run(App.class,args) ;
-        BrandService brandService = ac.getBean(BrandService.class) ;
+        BrandServiceApi brandService = ac.getBean(BrandServiceApi.class) ;
         Brand b = brandService.findById(1115L);
         System.out.println(b.getName());
     }

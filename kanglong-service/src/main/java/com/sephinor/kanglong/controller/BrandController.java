@@ -10,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,9 +38,11 @@ public class BrandController {
 	}
 
 
+	//根据平台Id集合品牌查询
 	@GetMapping("findByIds")
-	public ResponseEntity<List <Brand>> findByCid(@RequestParam("ids") List<Long> ids){
-		return ResponseEntity.ok(brandService.findByIds(ids));
+	public ResponseEntity<List <Brand>> findByIds(@RequestParam("ids") Long[]ids){
+		List<Long> cids = Arrays.asList(ids);
+		return ResponseEntity.ok(brandService.findByIds(cids));
 	}
 
 	/**
@@ -72,6 +72,15 @@ public class BrandController {
 	@GetMapping("/findByCid")
 	public ResponseEntity<List<Brand>> findByCid(@RequestParam("cid") Long cid){
 		return ResponseEntity.ok(brandService.findByCid(cid));
+	}
+
+
+
+	@GetMapping("/insert")
+	public ResponseEntity<String> insert(@RequestBody Brand brand , @RequestParam("cids") Long[] ids){
+		List<Long> cids = Arrays.asList(ids);
+		brandService.insertBrand(brand , cids);
+		 return ResponseEntity.ok("OK");
 	}
 
 }

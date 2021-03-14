@@ -92,8 +92,9 @@ public class BrandService {
 	 * @param cids
 	 */
 	@Transactional
-	public  void saveBrand(Brand brand, List<Long> cids){
+	public  void insertBrand(Brand brand, List<Long> cids){
 
+		brand.setId(null);
 		// 执行插入 , id由数据库自动生成, 自动回值
 		int count = brandMapper.insert(brand);
 		if(count != 1){

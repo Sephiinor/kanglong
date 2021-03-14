@@ -5,15 +5,12 @@ import com.sephinor.common.entity.Brand;
 import com.sephinor.common.vo.PageResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @FeignClient("business-service")
-public interface BrandService {
+public interface BrandServiceApi {
 
     /**
      *  按照id查询品牌
@@ -44,5 +41,11 @@ public interface BrandService {
      * 按照id集合查询品牌
      */
     @GetMapping("/brand/findByIds")
-    ResponseEntity<List<Brand>> findByIds(@RequestParam("ids") List<Long> ids) ;
+    ResponseEntity<List<Brand>> findByIds(@RequestParam("ids") Long[] ids) ;
+
+    /**
+     *  新增品牌
+     */
+    @PostMapping("/brand/insert")
+    ResponseEntity<String> insertBrand(@RequestBody Brand brand , @RequestParam("cids") Long[] cids) ;
 }

@@ -17,12 +17,16 @@
     <!-- topbar ends -->
 <div class="ch-container">
     <div class="row">
-        
+
         <!-- left menu starts -->
         <div th:replace="~{tpl :: leftbar}"></div>
         <!--/span-->
         <!-- left menu ends -->
 
+        <noscript>
+            <div class="alert alert-block col-md-12">
+            </div>
+        </noscript>
 
         <div id="content" class="col-lg-10 col-sm-10">
             <!-- content starts -->
@@ -37,93 +41,68 @@
         </ul>
     </div>
 
-    <div class="row">
-    <div class="box col-md-12">
-    <div class="box-inner">
-    <div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-user"></i> 品牌管理</h2>
+            <div class="row">
+                <div class="box col-md-12">
+                    <div class="box-inner">
+                        <div class="box-header well" data-original-title="">
+                            <h2><i class="glyphicon glyphicon-user"></i> 品牌管理</h2>
 
-        <div class="box-icon">
-            <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
-            <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                    class="glyphicon glyphicon-chevron-up"></i></a>
-            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-        </div>
-    </div>
-    <div class="box-content">
-    <div class="alert alert-info">
-        <a  id="a_btn_add_brand" class="btn btn-info" href="#">
-            <i class="glyphicon glyphicon-plus-sign icon-white"></i>
-            新增
-        </a>
-    </div>
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-    <thead>
-    <tr>
-        <th>品牌ID</th>
-        <th>品牌名称</th>
-        <th>品牌LOGO</th>
-        <th>品牌首字母</th>
-        <th>操作</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="e : ${list}">
-        <td th:text="${e.id}" />
-        <td class="center" th:text="${e.name}" />
-        <td class="center" > <img th:src="${e.image}"> </td>
-        <td class="center" th:text="${e.firstLetter}"> </td>
+                            <div class="box-icon">
+                                <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
+                                <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                                        class="glyphicon glyphicon-chevron-up"></i></a>
+                                <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <div class="alert alert-info">
+                                <a id="a_btn_add_brand" class="btn btn-info" href="#">
+                                    <i class="glyphicon glyphicon-plus-sign icon-white"></i>
+                                    新增
+                                </a>
+                            </div>
+                            <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
+                                <thead>
+                                <tr>
+                                    <th>品牌ID</th>
+                                    <th>品牌名称</th>
+                                    <th>品牌Logo</th>
+                                    <th>品牌首字母</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="e : ${list} ">
+                                    <td th:text="${e.id}"></td>
+                                    <td class="center" th:text="${e.name}"></td>
+                                    <td class="center"><img th:src="${e.image}"></td>
+                                    <td class="center" th:text="${e.firstLetter}"></td>
+                                    <td class="center">
+                                        <a class="btn btn-success" href="#">
+                                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+                                            查看
+                                        </a>
+                                        <a class="btn btn-info" href="#">
+                                            <i class="glyphicon glyphicon-edit icon-white"></i>
+                                            修改
+                                        </a>
+                                        <a class="btn btn-danger" href="#">
+                                            <i class="glyphicon glyphicon-trash icon-white"></i>
+                                            删除
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--/span-->
 
-        <td class="center">
-            <a class="btn btn-success" href="#">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                查看
-            </a>
-            <a class="btn btn-info" href="#">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-                编辑
-            </a>
-            <a class="btn btn-danger" href="#">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
-                删除
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td>Chris Jack</td>
-        <td class="center">2012/01/01</td>
-        <td class="center">Member</td>
-        <td class="center">
-            <span class="label-success label label-default">Active</span>
-        </td>
-        <td class="center">
-            <a class="btn btn-success" href="#">
-                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                查看
-            </a>
-            <a class="btn btn-info" href="#">
-                <i class="glyphicon glyphicon-edit icon-white"></i>
-                编辑
-            </a>
-            <a class="btn btn-danger" href="#">
-                <i class="glyphicon glyphicon-trash icon-white"></i>
-                删除
-            </a>
-        </td>
-    </tr>
-
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    <!--/span-->
-
-    </div><!--/row-->
-    <!-- content ends -->
-    </div><!--/#content.col-md-0-->
-</div><!--/fluid-row-->
-
+            </div><!--/row-->
+            <!-- content ends -->
+        </div><!--/#content.col-md-0-->
+    </div><!--/fluid-row-->
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -135,42 +114,57 @@
                     <h4>新增/修改品牌</h4>
                 </div>
                 <div class="modal-body">
-                    <!--新增/修改品牌 -起始 -->
-                    <form role="form">
+                    <!-- 新增/修改品牌-起始 -->
+                    <form id="form_brand" role="form">
                         <div class="form-group">
                             <label for="id">品牌ID</label>
-                            <input type="text" class="form-control" id="id" placeholder="请输入品牌ID">
+                            <input type="text" class="form-control" id="id" name="id" placeholder="品牌ID" readonly="readonly">
                         </div>
                         <div class="form-group">
                             <label for="name">品牌名称</label>
-                            <input type="text" class="form-control" id="name" placeholder="请输入品牌名称">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="品牌名称">
                         </div>
                         <div class="form-group">
-                            <label for="image">品牌LOGO</label>
+                            <label for="image">品牌Logo</label>
                             <input type="file" id="image" name="image">
-
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                                     aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                    <span class="sr-only">40% Complete (success)</span>
+                                </div>
+                            </div>
+                            <img id="img_logo" style="display:none">
                         </div>
                         <div class="form-group">
                             <label for="firstLetter">品牌首字母</label>
-                            <input type="text" class="form-control" id="firstLetter" placeholder="请输入品牌首字母">
+                            <input type="text" class="form-control" id="firstLetter" name="firstLetter" placeholder="品牌首字母">
+                        </div>
+                        <!-- 品类 -->
+                        <div class="form-group">
+                            <label class="control-label" for="cids">品类</label>
+                            <div class="controls">
+                                <select id="cids" multiple class="form-control" data-rel="chosen">
+                                    <option>Option 1</option>
+                                    <option selected>Option 2</option>
+                                    <option>Option 3</option>
+                                    <option>Option 4</option>
+                                    <option>Option 5</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
-                    <!--/span-->
-                    <!--新增/修改品牌 -结束 -->
-                        <div class="modal-footer">
-                            <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-                            <a href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
-                        </div>
-                    </div><!--/row-->
+                    <!-- 新增/修改品牌-起始 -->
                 </div>
-
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
+                    <a id="a_btn_save_brand" href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
+                </div>
             </div>
         </div>
     </div>
 
     <footer class="row">
-        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="http://usman.it" target="_blank">Muhammad
-                Usman</a> 2012 - 2015</p>
+        <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="http://usman.it" target="_blank">十八掌教育</a> 2012 - 2025</p>
 
         <p class="col-md-3 col-sm-3 col-xs-12 powered-by">Powered by: <a
                 href="http://usman.it/free-responsive-admin-template">Charisma</a></p>
@@ -179,13 +173,62 @@
 </div><!--/.fluid-container-->
 <div th:include="~{tpl :: js}"></div>
 <script type="application/javascript">
-    <!--  新增点击事件  -->
-    $(function (){
-        $("#a_btn_add_brand").click(function (){
+    $(function () {
+        //新增品牌按钮点击事件
+        $("#a_btn_add_brand").click(function () {
             $('#myModal').modal('show');
-        })
-    })
-</script>
+        });
 
+        //保存品牌
+        $("#a_btn_save_brand").click(function () {
+            var formData = $("#form_brand").serialize()
+            $.post("/brand/save", formData ,function (r) {
+                alert(r)
+            })
+        });
+
+        //选择文件控件事件
+        $("#form_brand #image").change(function () {
+            uploadFiles()
+        })
+
+        //修改多选列表样式，否则出不来效果
+        $("div.chosen-container-multi").css("width" , "100%")
+    })
+
+    //上传文件函数
+    function uploadFiles() {
+        var formData = new FormData();
+        var image = $("#form_brand #image")[0].files[0] ;
+        formData.append("image", image);
+        $.ajax({
+            type: "post",
+            async: true,
+            data: formData,
+            url: "/brand/upload",
+            processData: false,         // 不处理发送的数据
+            contentType: false,         // 不设置Content-Type请求头
+            xhr: function () {
+                xhr = $.ajaxSettings.xhr();
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', function (e) {
+                        var loaded = e.loaded;
+                        var total = e.total;
+                        var percent = Math.floor(100 * loaded / total) + "%";
+                        console.log("已经上传了：" + percent);
+                        $("#processBar").css("width", percent);
+                    }, false);
+                }
+                return xhr;
+            },
+            success: function (data) {
+                alert("上传成功!!!!");
+            },
+            error: function () {
+                alert("上传失败！");
+            }
+        });
+    }
+</script>
 </body>
 </html>
