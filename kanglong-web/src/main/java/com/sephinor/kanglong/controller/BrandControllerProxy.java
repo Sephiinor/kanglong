@@ -58,7 +58,8 @@ public class BrandControllerProxy {
      * @return
      */
     @PostMapping("/upload")
-    public String upload( MultipartFile image){
+    @ResponseBody
+    public String upload(MultipartFile image){
         try {
             //获得原始名称
             String origName = image.getOriginalFilename();
