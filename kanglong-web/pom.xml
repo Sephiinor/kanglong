@@ -28,6 +28,8 @@
 		<dependency>
 			<groupId>com.Sephinor.kanglong</groupId>
 			<artifactId>kanglong-service-api</artifactId>
+			<!--去掉版本后会报错-->
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
