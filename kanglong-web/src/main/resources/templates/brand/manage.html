@@ -144,8 +144,8 @@
                             <label class="control-label" for="cids">品类</label>
                             <div class="controls">
                                 <select id="cids" multiple class="form-control" data-rel="chosen">
-                                    <option>Option 1</option>
-                                    <option selected>Option 2</option>
+                                    <option th:each="c : ${categories}"  th:value="${c.id}"  th:text="${c.name}">Option 1</option>
+                                    <option>Option 2</option>
                                     <option>Option 3</option>
                                     <option>Option 4</option>
                                     <option>Option 5</option>

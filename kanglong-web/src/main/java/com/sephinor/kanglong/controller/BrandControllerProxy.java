@@ -2,8 +2,10 @@ package com.sephinor.kanglong.controller;
 
 
 import com.sephinor.common.entity.Brand;
+import com.sephinor.common.entity.Category;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kangkong.service.api.BrandServiceApi;
+import com.sephinor.kangkong.service.api.CategoryServiceApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +37,20 @@ public class BrandControllerProxy {
     @Autowired
     private BrandServiceApi brandService;
 
+    @Autowired
+    private CategoryServiceApi categoryServiceApi;
+
     @RequestMapping("/index")
     public String manage(Model model){
         // 远程查询所有的品牌
         PageResult<Brand> result = brandService.findPagingAndSortByName(1,Integer.MAX_VALUE,"",false,"").getBody();
+        //查询所有品类
+        List<Category> categories = categoryServiceApi.findAll().getBody();
         //发送UI组件
         model.addAttribute("list",result.getList());
-
-        return "/brand/manage";
+        model.addAttribute("categories",categories);
+        
+       return "/brand/manage";
     }
 
 
