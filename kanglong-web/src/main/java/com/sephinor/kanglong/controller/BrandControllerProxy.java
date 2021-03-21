@@ -49,14 +49,15 @@ public class BrandControllerProxy {
         //发送UI组件
         model.addAttribute("list",result.getList());
         model.addAttribute("categories",categories);
-        
+
        return "/brand/manage";
     }
 
 
     //保存品牌
-    @PatchMapping("/save")
-    public String save( @RequestBody Brand brand , Long[] cids){
+    @PostMapping("/save")
+    @ResponseBody
+    public String save(Brand brand , Long[] cids){
         //插入
         if(null == brand.getId() ){
             logger.info("开始插入品牌:" + brand.toString());

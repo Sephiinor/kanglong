@@ -76,7 +76,7 @@ public class BrandController {
 
 
 
-	@GetMapping("/insert")
+	@PostMapping("/insert")
 	public ResponseEntity<String> insert(@RequestBody Brand brand , @RequestParam("cids") Long[] ids){
 		List<Long> cids = Arrays.asList(ids);
 		brandService.insertBrand(brand , cids);
