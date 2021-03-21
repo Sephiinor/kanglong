@@ -75,7 +75,7 @@
                                 <tr th:each="e : ${list} ">
                                     <td th:text="${e.id}"></td>
                                     <td class="center" th:text="${e.name}"></td>
-                                    <td class="center"><img th:src="${e.image}"></td>
+                                    <td class="center"><img th:src="${e.image}" style="max-height: 40px ; max-width: 110px"></td>
                                     <td class="center" th:text="${e.firstLetter}"></td>
                                     <td class="center">
                                         <a class="btn btn-success" href="#">
@@ -158,6 +158,27 @@
             </div>
         </div>
     </div>
+    <!--成功通知，toast，转瞬即逝-->
+    <div class="modal fade" id="div_diag_notify_success" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+    <!--失败通知，对话框，点击关闭才会消失-->
+    <div class="modal fade" id="div_diag_notify_failure" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="row">
         <p class="col-md-9 col-sm-9 col-xs-12 copyright">&copy; <a href="http://usman.it" target="_blank">十八掌教育</a> 2012 - 2025</p>
@@ -188,7 +209,7 @@
                 formData = formData + "&image=" + imageUrl ;
             }
             $.post("/brand/save", formData ,function (r) {
-                alert(r)
+                toast_success("保存成功!!!")
             })
         });
 
@@ -231,14 +252,28 @@
             //成功返回
             success: function (result) {
                 //隐藏进度条
-                $("#div_progress").hide()
-                $("#img_logo_preview").attr("src" , result)
-                $("#img_logo_preview").show()
+                $("#form_brand #div_progress").hide()
+                $("#form_brand #img_logo_preview").attr("src" , result)
+                $("#form_brand #img_logo_preview").show()
             },
             error: function () {
-                alert("上传失败！");
+                toast_failure("上传失败！");
             }
         });
+    }
+
+    //失败吐司函数
+    function toast_failure(msg){
+        $("#div_diag_notify_failure .modal-body").text(msg) ;
+        $("#div_diag_notify_failure").modal("show") ;
+    }
+    //成功吐司函数
+    function toast_success(msg){
+        $("#div_diag_notify_success .modal-body").text(msg) ;
+        $("#div_diag_notify_success").modal("show") ;
+        setTimeout(function () {
+            $("#div_diag_notify_success").modal("hide");
+        }, 1000)
     }
 </script>
 </body>
