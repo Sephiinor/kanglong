@@ -139,10 +139,21 @@ public class BrandControllerProxy {
     }
 
     //删除品牌
-    @GetMapping("/delete")
+    @GetMapping("/deleteById")
     @ResponseBody
     public void deleteById(@RequestParam("id") Long id){
         logger.info("执行删除品牌{}",id);
         brandService.deleteById(id);
     }
+
+    /**
+     * 按照id查询Brand
+     */
+    @GetMapping("/findbyid")
+    @ResponseBody
+    public Brand findById(@RequestParam("id") Long id){
+
+        return brandService.findById(id) ;
+    }
+
 }

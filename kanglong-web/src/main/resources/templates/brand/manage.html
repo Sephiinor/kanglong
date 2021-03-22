@@ -78,7 +78,7 @@
                                     <td class="center"><img th:src="${e.image}" style="max-height: 40px ; max-width: 110px"></td>
                                     <td class="center" th:text="${e.firstLetter}"></td>
                                     <td class="center">
-                                        <a class="btn btn-success" href="#">
+                                        <a class="btn btn-success" href="#" th:data="${e.id}" onclick="viewBrand(this)">
                                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                                             查看
                                         </a>
@@ -104,6 +104,47 @@
         </div><!--/#content.col-md-0-->
     </div><!--/fluid-row-->
 
+    <!--查看品牌-->
+    <div class="modal fade" id="div_view_brand" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4>查看品牌</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- 新增/修改品牌-起始 -->
+                    <div class="form-group">
+                        <label for="id">品牌ID</label><br>
+                        <span id="span_id"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="id">品牌名称</label><br>
+                        <span id="span_name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">品牌Logo</label><br>
+                        <img id="img_image" style="max-width: 200px ; max-height: 200px" />
+                    </div>
+                    <div class="form-group">
+                        <label for="firstLetter">品牌首字母</label><br>
+                        <span id="span_firstLetter"></span>
+                    </div>
+                    <!-- 品类 -->
+                    <div class="form-group">
+                        <label class="control-label" for="sel_cids">品类</label>
+                        <span id="span_cnames"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--新增/编辑品牌-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
 
@@ -300,7 +341,7 @@
         //提取品牌id
         var bid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/brand/delete?id=" + bid , function () {
+            $.get("/brand/deletebyid?id=" + bid , function () {
                 toast_success("删除成功!")
             } )
         });
@@ -308,6 +349,21 @@
         $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+bid+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
     }
+
+    //查看品牌
+    function viewBrand(a){
+        //查询品牌id
+        var id = $(a).attr("data")
+
+        $.get("/brand/findbyid?id=" + id , function (brand) {
+            $("#span_id").text(brand.id) ;
+            $("#span_name").text(brand.name) ;
+            $("#img_image").attr("src" , brand.image) ;
+            $("#span_firstLetter").text(brand.firstLetter) ;
+            $("#div_view_brand").modal("show")
+        })
+    }
+
 </script>
 </body>
 </html>
