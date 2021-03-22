@@ -137,4 +137,12 @@ public class BrandControllerProxy {
 
 
     }
+
+    //删除品牌
+    @GetMapping("/delete")
+    @ResponseBody
+    public void deleteById(@RequestParam("id") Long id){
+        logger.info("执行删除品牌{}",id);
+        brandService.deleteById(id);
+    }
 }

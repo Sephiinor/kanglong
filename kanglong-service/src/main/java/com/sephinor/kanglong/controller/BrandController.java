@@ -83,4 +83,14 @@ public class BrandController {
 		 return ResponseEntity.ok("OK");
 	}
 
+	/**
+	 * 按照id删除品牌
+	 */
+	@GetMapping("/deletebyid")
+	public void deleteById(@RequestParam("id") Long id){
+		logger.info("[deleteById]开始删除{}",id);
+		//删除数据库数据
+		brandService.deleteById(id) ;
+	}
+
 }

@@ -48,4 +48,8 @@ public interface BrandServiceApi {
      */
     @PostMapping("/brand/insert")
     ResponseEntity<String> insertBrand(@RequestBody Brand brand , @RequestParam("cids") Long[] cids) ;
+
+    //删除品牌
+    @GetMapping("/brand/deletebyid")
+    void deleteById(@RequestParam("id") Long id) ;
 }

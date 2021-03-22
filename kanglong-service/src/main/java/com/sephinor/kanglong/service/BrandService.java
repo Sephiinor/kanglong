@@ -7,9 +7,13 @@ import com.sephinor.common.entity.Brand;
 import com.sephinor.common.exception.ExceptionType;
 import com.sephinor.common.exception.KangLongException;
 import com.sephinor.common.vo.PageResult;
+import com.sephinor.kanglong.controller.BrandController;
 import com.sephinor.kanglong.mapper.BrandMapper;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -25,9 +30,16 @@ import java.util.stream.Collectors;
  */
 @Service
 public class BrandService {
+
+	Logger logger = LoggerFactory.getLogger(BrandService.class);
+
 	@Resource
 	private BrandMapper brandMapper ;
 
+	@Value("${com.sephinor.image.addr9000}")
+	private String imageAddr9000;
+	@Value("${com.sephinor.image.addr9001}")
+	private String imageAddr9001;
 
 	/**
 	 *  根据id查找品牌
@@ -123,7 +135,37 @@ public class BrandService {
 		return  list;
 	}
 
-
+	/**
+	 * 按照id删除品牌
+	 */
+	@Transactional
+	public void deleteById(Long id){
+		//删除图片
+		Brand brand = this.findById(id);
+		int index ;
+		String fileName;
+		File file = null;
+		if(null!= brand){
+			//获取路径
+			String logoPath = brand.getImage();
+			if(StringUtils.isNotBlank(logoPath)){
+				index= logoPath.lastIndexOf("/")+1;
+				fileName = logoPath.substring(index);
+				logger.info("index={},fileName={},path9000={},path9001={}",index,fileName,imageAddr9000,imageAddr9001);
+				//删除9000和9001路径下图片
+				file = new File(imageAddr9000 ,fileName);
+				if(file.exists()) {
+					file.delete();
+				}
+				file = new File(imageAddr9001 ,fileName);
+				if(file.exists()) {
+					file.delete();
+				}
+			}
+		}
+		//删除数据库数据
+		brandMapper.deleteByPrimaryKey(id) ;
+	}
 
 
 }

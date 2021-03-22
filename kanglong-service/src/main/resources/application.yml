@@ -16,3 +16,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8888/eureka
+
+
+#nginx负载均衡 服务器地址
+com:
+  sephinor:
+    image:
+      #图片保存静态服务器地址9000
+      addr9000: D:\\nginx-1.6.3\\html\\9000
+      #图片保存静态服务器地址9001
+      addr9001: D:\\nginx-1.6.3\\html\\9001

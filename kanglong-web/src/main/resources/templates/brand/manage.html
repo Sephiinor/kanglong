@@ -86,7 +86,7 @@
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             修改
                                         </a>
-                                        <a class="btn btn-danger" href="#">
+                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteBrand(this)">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             删除
                                         </a>
@@ -175,6 +175,24 @@
                 <div class="modal-body"></div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--确认对话框-->
+    <div class="modal fade" id="div_diag_confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"> x </button>
+                    <h4></h4>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer">
+                    <a href="#" id="a_btn_confirm_close" class="btn btn-default" data-dismiss="modal">关闭</a>
+                    <a href="#" id="a_btn_confirm_ok" class="btn btn-default" data-dismiss="modal">确定</a>
                 </div>
             </div>
         </div>
@@ -274,6 +292,21 @@
         setTimeout(function () {
             $("#div_diag_notify_success").modal("hide");
         }, 1000)
+    }
+
+
+    //删除品牌
+    function deleteBrand(a){
+        //提取品牌id
+        var bid = $(a).attr("data")
+        $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
+            $.get("/brand/delete?id=" + bid , function () {
+                toast_success("删除成功!")
+            } )
+        });
+        $("#div_diag_confirm .modal-header").text("删除确认");
+        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+bid+"</b> 吗?");
+        $("#div_diag_confirm").modal("show");
     }
 </script>
 </body>
