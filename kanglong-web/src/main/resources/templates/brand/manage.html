@@ -126,7 +126,7 @@
                     </div>
                     <div class="form-group">
                         <label for="image">品牌Logo</label><br>
-                        <img id="img_image" style="max-width: 200px ; max-height: 200px" />
+                        <img id="img_image" style="max-width: 200px ; max-height: 200px"></img>
                     </div>
                     <div class="form-group">
                         <label for="firstLetter">品牌首字母</label><br>
@@ -227,7 +227,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"> x </button>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4></h4>
                 </div>
                 <div class="modal-body"></div>
@@ -345,6 +345,7 @@
                 toast_success("删除成功!")
             } )
         });
+
         $("#div_diag_confirm .modal-header").text("删除确认");
         $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+bid+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
@@ -355,19 +356,21 @@
         //查询品牌id
         var id = $(a).attr("data")
 
+        //设置同步请求
+        $.ajaxSettings.async=false
         $.get("/brand/findbyid?id=" + id , function (brand) {
             $("#span_id").text(brand.id) ;
             $("#span_name").text(brand.name) ;
             $("#img_image").attr("src" , brand.image) ;
             $("#span_firstLetter").text(brand.firstLetter) ;
-            $("#div_view_brand").modal("show")
         })
         $.ajaxSettings.async = true
         $.get("/category/findbybid?bid=" + id , function (data) {
-            $.each(data , function (i, e) {
-                var oldText = $("#div_view_brand #span_cnames").text() ;
-                $("#div_view_brand #span_cnames").text( e.name+";"+oldText)
-            })
+            var cnames = "" ;
+            for(var i = 0 ; i < data.length ; i ++){
+                cnames = cnames + data[i].name + " ; <br>"
+            }
+            $("#div_view_brand #span_cnames").html(cnames) ;
             $("#div_view_brand").modal("show")
         })
 
