@@ -27,6 +27,13 @@ public class CategoryService {
 	}
 
 
+	/**
+	 *  查询品牌ID对应品类
+	 *
+	 */
 
+	public List<Category> findByBrandId(Long bid){
+		return categoryMapper.findByBrandId(bid);
+	}
 
 }

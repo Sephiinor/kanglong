@@ -134,7 +134,7 @@
                     </div>
                     <!-- 品类 -->
                     <div class="form-group">
-                        <label class="control-label" for="sel_cids">品类</label>
+                        <label class="control-label" for="sel_cids">品类</label><br>
                         <span id="span_cnames"></span>
                     </div>
                 </div>
@@ -362,6 +362,15 @@
             $("#span_firstLetter").text(brand.firstLetter) ;
             $("#div_view_brand").modal("show")
         })
+        $.ajaxSettings.async = true
+        $.get("/category/findbybid?bid=" + id , function (data) {
+            $.each(data , function (i, e) {
+                var oldText = $("#div_view_brand #span_cnames").text() ;
+                $("#div_view_brand #span_cnames").text( e.name+";"+oldText)
+            })
+            $("#div_view_brand").modal("show")
+        })
+
     }
 
 </script>

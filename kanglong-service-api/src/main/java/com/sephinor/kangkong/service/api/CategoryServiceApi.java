@@ -5,6 +5,7 @@ import com.sephinor.common.entity.Category;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.List;
@@ -18,5 +19,11 @@ public interface CategoryServiceApi {
     @GetMapping("/category/findAll")
     ResponseEntity<List<Category>> findAll() ;
 
+
+    /**
+     *  查询所有品牌brandId对应的品类
+     */
+    @GetMapping("/category/findByBrandId")
+    ResponseEntity<List<Category>> findByBrandId(@RequestParam("bid")Long bid) ;
 
 }

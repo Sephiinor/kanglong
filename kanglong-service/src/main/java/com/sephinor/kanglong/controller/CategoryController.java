@@ -37,6 +37,14 @@ public class CategoryController {
 		return  ResponseEntity.ok(categoryService.findAll());
 	}
 
-
+	/**
+	 *  根据brandId查询品牌对应的品类
+	 * @param bid
+	 * @return
+	 */
+	@GetMapping("/findByBrandId")
+	public ResponseEntity<List<Category>> findByBrandId(@RequestParam("bid")Long bid){
+		return  ResponseEntity.ok(categoryService.findByBrandId(bid));
+	}
 
 }

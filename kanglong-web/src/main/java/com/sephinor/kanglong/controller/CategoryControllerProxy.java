@@ -31,4 +31,13 @@ public class CategoryControllerProxy {
 
     }
 
+    @RequestMapping("/findbybid")
+    @ResponseBody
+    public List<Category> findByBrandId(@RequestParam("bid") Long bid){
+        //远程查询所有的品牌
+        List<Category> list = categoryServiceApi.findByBrandId(bid).getBody() ;
+        logger.info("查的{}对应的品类信息为{}",bid,list.toString());
+        return list ;
+    }
+
 }
