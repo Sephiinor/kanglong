@@ -82,8 +82,8 @@
                                             <i class="glyphicon glyphicon-zoom-in icon-white"></i>
                                             查看
                                         </a>
-                                        <a class="btn btn-info" href="#">
-                                            <i class="glyphicon glyphicon-edit icon-white"></i>
+                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editBrand(this)">
+                                            <i class="glyphicon glyphicon-edit icon-white" ></i>
                                             修改
                                         </a>
                                         <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteBrand(this)">
@@ -373,6 +373,24 @@
             $("#div_view_brand #span_cnames").html(cnames) ;
             $("#div_view_brand").modal("show")
         })
+
+    }
+
+    //修改品牌
+    function editBrand(a) {
+        //查询品牌id
+        var id = $(a).attr("data")
+        //设置同步请求
+        $.ajaxSettings.async = false
+        $.get("/brand/findbyid?id=" + id, function (brand) {
+            $("#myModal #id").val(brand.id);
+            $("#myModal #name").val(brand.name);
+            $("#myModal #img_logo_preview").attr("src", brand.image);
+            $("#myModal #firstLetter").val(brand.firstLetter);
+        })
+        $.ajaxSettings.async = true;
+
+        $("#myModal").modal("show")
 
     }
 
