@@ -257,6 +257,11 @@
             //隐藏进度条与上传图片预览
             $("#form_brand #div_progress").hide()
             $("#form_brand #img_logo_preview").hide()
+
+            //将清空品类选择框
+            $("#myModal form #sel_cids").val([])
+            $("#myModal form #sel_cids").trigger("chosen:updated")
+
             $('#myModal').modal('show');
         });
 
@@ -390,7 +395,18 @@
         })
         $.ajaxSettings.async = true;
 
-        $("#myModal").modal("show")
+        //查询所属品类
+        $.get("/category/findbybid?bid=" + id, function (list) {
+            var arr = new Array(list.length);
+            for (var i = 0; i < list.length; i++) {
+                arr[i] = list[i].id
+            }
+            //设置selector的值
+            $("#myModal form #sel_cids").val(arr)
+            //触发选中事件
+            $("#myModal form #sel_cids").trigger("chosen:updated")
+            $("#myModal").modal("show")
+        })
 
     }
 
