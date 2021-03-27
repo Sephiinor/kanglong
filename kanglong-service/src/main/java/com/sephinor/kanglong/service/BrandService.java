@@ -100,26 +100,38 @@ public class BrandService {
 
 	/**
 	 *  保存品牌,同时指定所属的品类集合
-	 * @param brand
-	 * @param cids
+	 * @param brand 品牌信息
+	 * @param cids 品类id
 	 */
 	@Transactional
-	public  void insertBrand(Brand brand, List<Long> cids){
-
-		brand.setId(null);
-		// 执行插入 , id由数据库自动生成, 自动回值
-		int count = brandMapper.insert(brand);
-		if(count != 1){
-			throw new KangLongException(ExceptionType.BRAND_SAVE_ERROR);
-		}
-
-		//向中间表插入记录
-		for (Long cid : cids) {
-			count = brandMapper.insertCategoryBrand(cid,brand.getId());
+	public  void saveOrUpdateBrand(Brand brand, List<Long> cids){
+		//新增操作
+		if( null == brand.getId()){
+			brand.setId(null);
+			// 执行插入 , id由数据库自动生成, 自动回值
+			int count = brandMapper.insert(brand);
 			if(count != 1){
-				throw new KangLongException(ExceptionType.CATEGORY_NOT_FOUND);
+				throw new KangLongException(ExceptionType.BRAND_SAVE_ERROR);
+			}
+			//向中间表插入记录
+			for (Long cid : cids) {
+				count = brandMapper.insertLink(cid,brand.getId());
+				if(count != 1){
+					throw new KangLongException(ExceptionType.CATEGORY_NOT_FOUND);
+				}
 			}
 		}
+
+		// 更新操作
+		//按照组件更新
+		brandMapper.updateByPrimaryKey(brand);
+		//删除品类的关联
+		brandMapper.deleteLink(brand.getId());
+		//重新创建关联
+		for (Long cid : cids) {
+			brandMapper.insertLink(cid,brand.getId());
+		}
+
 	}
 
 	/**

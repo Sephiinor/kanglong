@@ -1,7 +1,6 @@
 package com.sephinor.kanglong.controller;
 
 
-import com.netflix.discovery.converters.Auto;
 import com.sephinor.common.entity.Brand;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kanglong.service.BrandService;
@@ -76,21 +75,24 @@ public class BrandController {
 
 
 
-	@PostMapping("/insert")
-	public ResponseEntity<String> insert(@RequestBody Brand brand , @RequestParam("cids") Long[] ids){
+	@PostMapping("/saveOrUpdate")
+	public ResponseEntity<String> saveOrUpdateBrand(@RequestBody Brand brand , @RequestParam("cids") Long[] ids){
 		List<Long> cids = Arrays.asList(ids);
-		brandService.insertBrand(brand , cids);
-		 return ResponseEntity.ok("OK");
+		brandService.saveOrUpdateBrand(brand , cids);
+		return ResponseEntity.ok("OK");
 	}
 
 	/**
 	 * 按照id删除品牌
 	 */
 	@GetMapping("/deletebyid")
+	@ResponseBody
 	public void deleteById(@RequestParam("id") Long id){
 		logger.info("[deleteById]开始删除{}",id);
 		//删除数据库数据
 		brandService.deleteById(id) ;
 	}
+
+
 
 }

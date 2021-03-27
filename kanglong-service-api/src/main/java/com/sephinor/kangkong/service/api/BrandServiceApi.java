@@ -44,10 +44,10 @@ public interface BrandServiceApi {
     ResponseEntity<List<Brand>> findByIds(@RequestParam("ids") Long[] ids) ;
 
     /**
-     *  新增品牌
+     *  新增或更新品牌
      */
-    @PostMapping("/brand/insert")
-    ResponseEntity<String> insertBrand(@RequestBody Brand brand , @RequestParam("cids") Long[] cids) ;
+    @PostMapping("/brand/saveOrUpdate")
+    ResponseEntity<String> saveOrUpdateBrand(@RequestBody Brand brand , @RequestParam("cids") Long[] cids) ;
 
     //删除品牌
     @GetMapping("/brand/deletebyid")

@@ -272,7 +272,7 @@
             if(imageUrl != null){
                 formData = formData + "&image=" + imageUrl ;
             }
-            $.post("/brand/save", formData ,function (r) {
+            $.post("/brand/saveOrUpdate", formData ,function (r) {
                 toast_success("保存成功!!!")
             })
         });

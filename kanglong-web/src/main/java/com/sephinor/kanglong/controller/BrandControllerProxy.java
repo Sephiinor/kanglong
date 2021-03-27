@@ -54,19 +54,14 @@ public class BrandControllerProxy {
     }
 
 
-    //保存品牌
-    @PostMapping("/save")
+    //新增或更新品牌
+    @PostMapping("/saveOrUpdate")
     @ResponseBody
-    public String save(Brand brand , Long[] cids){
-        //插入
-        if(null == brand.getId() ){
-            logger.info("开始插入品牌:" + brand.toString());
-            return brandService.insertBrand(brand, cids).getBody();
-        }
-        //更新
+    public String saveOrUpdate(Brand brand , Long[] cids){
 
+        logger.info("开始插入品牌:" + brand.toString());
+        return brandService.saveOrUpdateBrand(brand, cids).getBody();
 
-        return null;
     }
 
 
