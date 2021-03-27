@@ -2,6 +2,7 @@ package com.sephinor.kangkong.service.api;
 
 
 import com.sephinor.common.entity.Category;
+import com.sephinor.common.vo.CategoryVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,5 +26,9 @@ public interface CategoryServiceApi {
      */
     @GetMapping("/category/findByBrandId")
     ResponseEntity<List<Category>> findByBrandId(@RequestParam("bid")Long bid) ;
+
+
+    @GetMapping("/category/findTreeCategories")
+    ResponseEntity<List<CategoryVO>> findTreeCategories();
 
 }

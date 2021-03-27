@@ -1,8 +1,8 @@
 package com.sephinor.kanglong.service;
 
 import com.sephinor.common.entity.Category;
+import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.kanglong.mapper.CategoryMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -20,7 +20,6 @@ public class CategoryService {
 
 	/**
 	 * 查询所有品类
-	 * @return
 	 */
 	public List<Category> findAll(){
 		return categoryMapper.findAll();
@@ -34,6 +33,13 @@ public class CategoryService {
 
 	public List<Category> findByBrandId(Long bid){
 		return categoryMapper.findByBrandId(bid);
+	}
+
+	/**
+	 *  查询树结构
+	 */
+	public List<CategoryVO> findTree(){
+		return categoryMapper.findTree();
 	}
 
 }

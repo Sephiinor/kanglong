@@ -346,7 +346,7 @@
         //提取品牌id
         var bid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/brand/deletebyid?id=" + bid , function () {
+            $.get("/brand/deleteById?id=" + bid , function () {
                 toast_success("删除成功!")
             } )
         });

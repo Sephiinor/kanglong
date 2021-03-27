@@ -2,6 +2,7 @@ package com.sephinor.kanglong.controller;
 
 
 import com.sephinor.common.entity.Category;
+import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,26 @@ public class CategoryControllerProxy {
     @Autowired
     private CategoryServiceApi categoryServiceApi;
 
-    @RequestMapping("findAll")
+    /**
+     *  品类管理入口
+     * @return
+     */
+    @RequestMapping("/index")
+    public String index(Model model){
+        //查询所有品类
+        List<CategoryVO> categories = categoryServiceApi.findTreeCategories().getBody();
+        //发送UI组件
+        model.addAttribute("list",null);
+        model.addAttribute("categories",categories);
+
+        return "/category/manage";
+    }
+
+
+    /**
+     *  品牌管理查询品类
+     */
+    @RequestMapping("/findAll")
     public List<Category> findAll(Model model){
         //远程查询所有品牌
         List<Category> all = categoryServiceApi.findAll().getBody();
@@ -31,6 +51,9 @@ public class CategoryControllerProxy {
 
     }
 
+    /**
+     *  品牌管理通过品牌Id查询品类
+     */
     @RequestMapping("/findbybid")
     @ResponseBody
     public List<Category> findByBrandId(@RequestParam("bid") Long bid){

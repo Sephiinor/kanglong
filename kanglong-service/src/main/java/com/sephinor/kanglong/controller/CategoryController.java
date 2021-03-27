@@ -1,19 +1,16 @@
 package com.sephinor.kanglong.controller;
 
 
-import com.sephinor.common.entity.Brand;
 import com.sephinor.common.entity.Category;
-import com.sephinor.common.vo.PageResult;
-import com.sephinor.kanglong.service.BrandService;
+import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.kanglong.service.CategoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
+
 import java.util.List;
 
 /**
@@ -39,7 +36,7 @@ public class CategoryController {
 
 	/**
 	 *  根据brandId查询品牌对应的品类
-	 * @param bid
+	 * @param bid 品牌Id
 	 * @return
 	 */
 	@GetMapping("/findByBrandId")
@@ -47,4 +44,8 @@ public class CategoryController {
 		return  ResponseEntity.ok(categoryService.findByBrandId(bid));
 	}
 
+	@GetMapping("/findTree")
+	public ResponseEntity<List<CategoryVO>> findTree(){
+		return  ResponseEntity.ok(categoryService.findTree());
+	}
 }
