@@ -31,7 +31,7 @@ public interface CategoryMapper extends Mapper<Category> , IdListMapper<Category
     /**
      * 查询树形列表集合
      */
-    @Select("select t.id , t.name c1name , '' c2name , '' c3name , t.name fullname from t_category t where t.parent_id = 0 union select t2.id , '' c1name , t2.name c2name , '' c3name , concat(t1.name , '/' , t2.name) fullname from t_category t1  LEFT OUTER JOIN t_category t2 on t1.id = t2.parent_id where t1.parent_id = 0 union select t3.id , '' c1name , '' c2name , t3.name c3name , concat(t1.name , '/' , t2.name , '/' , t3.name) fullname from t_category t1  LEFT OUTER JOIN t_category t2 on t1.id = t2.parent_id  LEFT OUTER JOIN t_category t3 on t2.id = t3.parent_id where t1.parent_id = 0 order by fullname")
+    @Select("select t.id , t.name c1name , '' c2name , '' c3name , t.name fullname from t_category t where t.parent_id = 0 union select t2.id , '' c1name , t2.name c2name , '' c3name , concat(t1.name , '/' , t2.name) fullname from t_category t1  LEFT OUTER JOIN t_category t2 on t1.id = t2.parent_id where t1.parent_id = 0 union select t3.id , '' c1name , '' c2name , t3.name c3name , concat(t1.name , '/' , t2.name , '/' , t3.name) fullname from t_category t1  LEFT OUTER JOIN t_category t2 on t1.id = t2.parent_id  LEFT OUTER JOIN t_category t3 on t2.id = t3.parent_id where t1.parent_id = 0 order by id , fullname")
     List<CategoryVO> findTree() ;
 
 
