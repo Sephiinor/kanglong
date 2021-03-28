@@ -28,7 +28,7 @@ public interface CategoryServiceApi {
     ResponseEntity<List<Category>> findByBrandId(@RequestParam("bid")Long bid) ;
 
 
-    @GetMapping("/category/findTreeCategories")
-    ResponseEntity<List<CategoryVO>> findTreeCategories();
+    @GetMapping("/category/findTree")
+    ResponseEntity<List<CategoryVO>> findTree();
 
 }

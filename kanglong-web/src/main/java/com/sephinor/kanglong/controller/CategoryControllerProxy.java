@@ -30,10 +30,10 @@ public class CategoryControllerProxy {
     @RequestMapping("/index")
     public String index(Model model){
         //查询所有品类
-        List<CategoryVO> categories = categoryServiceApi.findTreeCategories().getBody();
+        List<CategoryVO> categories = categoryServiceApi.findTree().getBody();
         //发送UI组件
-        model.addAttribute("list",null);
-        model.addAttribute("categories",categories);
+        model.addAttribute("list",categories);
+
 
         return "/category/manage";
     }
@@ -62,5 +62,7 @@ public class CategoryControllerProxy {
         logger.info("查的{}对应的品类信息为{}",bid,list.toString());
         return list ;
     }
+
+
 
 }
