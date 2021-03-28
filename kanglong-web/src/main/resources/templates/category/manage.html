@@ -92,10 +92,6 @@
                                     <td class="center" th:text="${e.c3name}"></td>
 
                                     <td class="center">
-                                        <a class="btn btn-success" href="#" th:data="${e.id}" onclick="viewBrand(this)">
-                                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                                            查看
-                                        </a>
                                         <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editBrand(this)">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             修改
@@ -103,6 +99,9 @@
                                         <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteBrand(this)">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             删除
+                                        </a>
+                                        <a class="btn btn-success" href="#" th:data="${e.id}" onclick="toggleChildren(this)" th:if="${e.leaf}">
+                                            <i class="glyphicon glyphicon-chevron-up"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -112,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <!-- 品牌列表--结束 -->
+            <!-- 品类列表--结束 -->
             <!-- content ends -->
         </div><!--/#content.col-md-0-->
     </div><!--/fluid-row-->
@@ -267,14 +266,12 @@
             //收起操作
             if(cls.indexOf("glyphicon-chevron-up") > -1){
                 $(".box-content table tbody tr td:nth-child(2)").filter("td:empty").parent().hide()
-                $("#th_c1 a i").removeClass("glyphicon-chevron-up")
-                $("#th_c1 a i").addClass("glyphicon-chevron-down")
+                toggleIcon($("#th_c1 a")[0]) ;
             }
             //展开
             else if(cls.indexOf("glyphicon-chevron-down") > -1){
                 $(".box-content table tbody tr td:nth-child(2)").filter("td:empty").parent().show()
-                $("#th_c1 a i").removeClass("glyphicon-chevron-down")
-                $("#th_c1 a i").addClass("glyphicon-chevron-up")
+                toggleIcon($("#th_c1 a")[0]);
             }
         })
         //二级分类收起
@@ -284,14 +281,12 @@
             //收起操作
             if (cls.indexOf("glyphicon-chevron-up") > -1) {
                 $(".box-content table tbody tr td:nth-child(4)").filter("td:parent").parent().hide()
-                $("#th_c2 a i").removeClass("glyphicon-chevron-up")
-                $("#th_c2 a i").addClass("glyphicon-chevron-down")
+                toggleIcon($("#th_c2 a")[0]);
             }
             //展开
             else if (cls.indexOf("glyphicon-chevron-down") > -1) {
                 $(".box-content table tbody tr td:nth-child(4)").filter("td:parent").parent().show()
-                $("#th_c2 a i").removeClass("glyphicon-chevron-down")
-                $("#th_c2 a i").addClass("glyphicon-chevron-up")
+                toggleIcon($("#th_c2 a")[0]);
             }
         })
     })
@@ -417,6 +412,61 @@
             $("#myModal form #sel_cids").trigger("chosen:updated")
             $("#myModal").modal("show")
         })
+    }
+
+    //切换下级品类可见性
+    function toggleChildren(a){
+        //一级分类表头收起或展开
+        //得到样式
+        var cls = $(a).find("i").attr("class")
+        //收起还是展开
+        var op = (cls.indexOf("glyphicon-chevron-up") > -1) ? 1 : 2
+
+        var cname = $(a).parent().parent().find("td:nth-child(2)").text()
+        //级别
+        var level = (cname != null && cname != "") ? 1 : 2;
+
+        //
+        var arr = $(a).parent().parent().nextAll()
+        for (var i = 0; i < arr.length; i++) {
+            //一级品类
+            if (level == 1) {
+                var txt = $(arr[i]).find("td:nth-child(2)").text()
+                if (txt == null || txt == "") {
+                    op == 1 ? $(arr[i]).slideUp("slow") : $(arr[i]).slideDown("slow")
+                }
+                else {
+                    break ;
+                }
+            }
+            //二级品类
+            else {
+                var txt = $(arr[i]).find("td:nth-child(4)").text()
+                if (txt != null && txt != "") {
+                    op == 1 ? $(arr[i]).slideUp("slow") : $(arr[i]).slideDown("slow")
+                }
+                else {
+                    break;
+                }
+            }
+        }
+        toggleIcon(a) ;
+    }
+
+    //切换图标
+    function toggleIcon(a) {
+        //找到
+        var e = $(a).find("i")
+        var cls = e.attr("class")
+        //收起
+        if(cls.indexOf("glyphicon-chevron-up") > -1){
+            e.removeClass("glyphicon-chevron-up")
+            e.addClass("glyphicon-chevron-down")
+        }
+        else{
+            e.removeClass("glyphicon-chevron-down")
+            e.addClass("glyphicon-chevron-up")
+        }
     }
 
 </script>

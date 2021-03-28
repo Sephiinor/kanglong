@@ -5,7 +5,7 @@ spring:
     name: kanglong-eureka
 eureka:
   client:
-    //如果找不到 business-service 改为允许登陆 true
+    #如果找不到 business-service 改为允许登陆 true
     fetch-registry: false
     register-with-eureka: false
   service-url:
