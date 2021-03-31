@@ -3,6 +3,7 @@ package com.sephinor.kanglong.controller;
 
 import com.sephinor.common.entity.Category;
 import com.sephinor.common.vo.CategoryVO;
+import com.sephinor.common.vo.PageResult;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,5 +65,17 @@ public class CategoryControllerProxy {
     }
 
 
+    /**
+     *  保存或更新
+     * @param category
+     */
+    @PostMapping("/saveOrUpdate")
+    @ResponseBody
+    public void saveOrUpdate(Category category) {
+
+        logger.info("保存或更新入参为:"+category.toString());
+
+        categoryServiceApi.saveOrUpdate(category);
+    }
 
 }

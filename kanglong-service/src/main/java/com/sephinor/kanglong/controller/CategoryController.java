@@ -48,4 +48,16 @@ public class CategoryController {
 	public ResponseEntity<List<CategoryVO>> findTree(){
 		return  ResponseEntity.ok(categoryService.findTree());
 	}
+
+
+
+	//按照品牌id查询品类
+	@PostMapping("/saveOrUpdate")
+	@ResponseBody
+	public void saveOrUpdate(@RequestBody  Category category){
+		logger.info("已进入"+category.toString());
+
+		categoryService.saveOrUpdate(category) ;
+	}
+
 }
