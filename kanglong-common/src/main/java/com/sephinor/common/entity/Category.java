@@ -18,9 +18,8 @@ public class Category {
     private String name;
     //上级品类id
     @Column(name = "parent_id")
-    private Long parentId;
-    //是否是最后一别品类
-    private boolean leaf;
-    //排序值
-    private Integer idx;
+    private Long parentId; //上级品类id
+    //修改成Boolean，否则mybatis无法通过get方式提取到。
+    private Boolean leaf; //是否是最后一别品类
+    private Integer idx; //排序值
 }

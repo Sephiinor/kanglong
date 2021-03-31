@@ -3,6 +3,7 @@ package com.sephinor.kanglong.controller;
 
 import com.sephinor.common.entity.Brand;
 import com.sephinor.common.entity.Category;
+import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kangkong.service.api.BrandServiceApi;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
@@ -45,7 +46,7 @@ public class BrandControllerProxy {
         // 远程查询所有的品牌
         PageResult<Brand> result = brandService.findPagingAndSortByName(1,Integer.MAX_VALUE,"",false,"").getBody();
         //查询所有品类
-        List<Category> categories = categoryServiceApi.findAll().getBody();
+        List<CategoryVO> categories = categoryServiceApi.findTree().getBody();
         //发送UI组件
         model.addAttribute("list",result.getList());
         model.addAttribute("categories",categories);
