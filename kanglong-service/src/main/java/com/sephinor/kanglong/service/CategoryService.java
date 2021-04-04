@@ -2,7 +2,7 @@ package com.sephinor.kanglong.service;
 
 import com.sephinor.common.entity.Brand;
 import com.sephinor.common.entity.Category;
-import com.sephinor.common.exception.ExceptionType;
+import com.sephinor.common.exception.ExceptionMessage;
 import com.sephinor.common.exception.KangLongException;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.kanglong.mapper.BrandMapper;
@@ -83,13 +83,13 @@ public class CategoryService {
 		int subCount = categoryMapper.findSubCategories(id);
 		if(subCount != 0){
 			logger.error("品类删除异常,{}存在子类,无法删除",id);
-			throw  new KangLongException(ExceptionType.CATEGORY_DELETE_ERROR);
+			throw  new KangLongException(ExceptionMessage.CATEGORY_DELETE_ERROR);
 		}
 		//查看是否有关联品牌
 		List<Brand> brandList = brandMapper.findByCid(id);
 		if(!CollectionUtils.isEmpty(brandList)){
 			logger.error("品类删除异常,{}存在关联品牌,无法删除",id);
-			throw  new KangLongException(ExceptionType.CATEGORY_DELETE_ERROR);
+			throw  new KangLongException(ExceptionMessage.CATEGORY_DELETE_ERROR);
 		}
 		logger.info("品类{}无子品类与关联品牌,可执行删除操作",id);
 		int result = categoryMapper.deleteByPrimaryKey(id);

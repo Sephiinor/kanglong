@@ -2,29 +2,24 @@ package com.sephinor.kanglong.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.sephinor.common.entity.Brand;
-import com.sephinor.common.exception.ExceptionType;
+import com.sephinor.common.exception.ExceptionMessage;
 import com.sephinor.common.exception.KangLongException;
 import com.sephinor.common.vo.PageResult;
-import com.sephinor.kanglong.controller.BrandController;
 import com.sephinor.kanglong.mapper.BrandMapper;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.util.List;
-import java.util.stream.Collectors;
+
 /**
  * 品牌服务
  */
@@ -60,7 +55,7 @@ public class BrandService {
 	public List<Brand> findByIds(List<Long> ids){
 		List<Brand> list = brandMapper.selectByIdList(ids) ;
 		if(CollectionUtils.isEmpty(list)){
-			throw  new KangLongException(ExceptionType.CATEGORY_NOT_FOUND);
+			throw  new KangLongException(ExceptionMessage.CATEGORY_NOT_FOUND);
 		}
 		return  list;
 	}
@@ -111,13 +106,13 @@ public class BrandService {
 			// 执行插入 , id由数据库自动生成, 自动回值
 			int count = brandMapper.insert(brand);
 			if(count != 1){
-				throw new KangLongException(ExceptionType.BRAND_SAVE_ERROR);
+				throw new KangLongException(ExceptionMessage.BRAND_SAVE_ERROR);
 			}
 			//向中间表插入记录
 			for (Long cid : cids) {
 				count = brandMapper.insertLink(cid,brand.getId());
 				if(count != 1){
-					throw new KangLongException(ExceptionType.CATEGORY_NOT_FOUND);
+					throw new KangLongException(ExceptionMessage.CATEGORY_NOT_FOUND);
 				}
 			}
 		}
@@ -142,7 +137,7 @@ public class BrandService {
 	public List<Brand> findByCid(Long cid){
 		List<Brand> list = brandMapper.findByCid(cid);
 		if(CollectionUtils.isEmpty(list)){
-		throw new KangLongException(ExceptionType.BRAND_NOT_FOUND);
+		throw new KangLongException(ExceptionMessage.BRAND_NOT_FOUND);
 		}
 		return  list;
 	}
