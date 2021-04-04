@@ -5,6 +5,7 @@ import com.sephinor.common.entity.Category;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +73,26 @@ public class CategoryControllerProxy {
     @PostMapping("/saveOrUpdate")
     @ResponseBody
     public void saveOrUpdate(Category category) {
+        //叶子节点默认为false
+        if(null == category.getLeaf() || "".equals(category.getLeaf())){
+            category.setLeaf(false);
+        }
 
         logger.info("保存或更新入参为:"+category.toString());
 
         categoryServiceApi.saveOrUpdate(category);
+    }
+
+
+    /**
+     *  删除品类,不能有子类,不能有关联品牌
+     * @param id
+     */
+    @GetMapping("/deleteById")
+    @ResponseBody
+    public void deleteById(@RequestParam("id") Long id){
+        logger.info("执行删除品类{}",id);
+        categoryServiceApi.deleteById(id);
     }
 
 }

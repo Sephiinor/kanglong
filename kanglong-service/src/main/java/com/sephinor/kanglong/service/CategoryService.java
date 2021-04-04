@@ -1,12 +1,18 @@
 package com.sephinor.kanglong.service;
 
+import com.sephinor.common.entity.Brand;
 import com.sephinor.common.entity.Category;
+import com.sephinor.common.exception.ExceptionType;
+import com.sephinor.common.exception.KangLongException;
 import com.sephinor.common.vo.CategoryVO;
+import com.sephinor.kanglong.mapper.BrandMapper;
 import com.sephinor.kanglong.mapper.CategoryMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.annotation.Resource;
@@ -22,7 +28,8 @@ public class CategoryService {
 
 	@Resource
 	private CategoryMapper categoryMapper ;
-
+	@Resource
+	private BrandMapper brandMapper ;
 
 	/**
 	 * 查询所有品类
@@ -62,6 +69,37 @@ public class CategoryService {
 		 	//更新
 		 	categoryMapper.updateByPrimaryKey(category);
 		 }
+	}
+
+
+	/**
+	 *  删除品类,不能有子类,不能有关联品牌
+	 * @param id
+	 */
+	@Transactional
+	public void deleteById(@RequestParam("id") Long id){
+
+		//查找子品牌的数量
+		int subCount = categoryMapper.findSubCategories(id);
+		if(subCount != 0){
+			logger.error("品类删除异常,{}存在子类,无法删除",id);
+			throw  new KangLongException(ExceptionType.CATEGORY_DELETE_ERROR);
+		}
+		//查看是否有关联品牌
+		List<Brand> brandList = brandMapper.findByCid(id);
+		if(!CollectionUtils.isEmpty(brandList)){
+			logger.error("品类删除异常,{}存在关联品牌,无法删除",id);
+			throw  new KangLongException(ExceptionType.CATEGORY_DELETE_ERROR);
+		}
+		logger.info("品类{}无子品类与关联品牌,可执行删除操作",id);
+		int result = categoryMapper.deleteByPrimaryKey(id);
+
+		if(result != 0){
+			logger.info("品类{}删除成功",id);
+		}else{
+			logger.error("品类{}删除失败",id);
+		}
+
 	}
 
 }

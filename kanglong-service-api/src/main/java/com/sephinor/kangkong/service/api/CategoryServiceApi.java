@@ -29,12 +29,22 @@ public interface CategoryServiceApi {
     @GetMapping("/category/findByBrandId")
     ResponseEntity<List<Category>> findByBrandId(@RequestParam("bid")Long bid) ;
 
-
+    /**
+     *  树形查找
+     * @return
+     */
     @GetMapping("/category/findTree")
     ResponseEntity<List<CategoryVO>> findTree();
 
-
+    /**
+     *  新增或修改
+     * @param category
+     */
     @PostMapping("/category/saveOrUpdate")
     void saveOrUpdate(@RequestBody Category category) ;
+
+    //删除品牌
+    @GetMapping("/brand/deletebyid")
+    void deleteById(@RequestParam("id") Long id) ;
 
 }

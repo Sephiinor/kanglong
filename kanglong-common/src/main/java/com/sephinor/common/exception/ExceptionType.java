@@ -23,7 +23,9 @@ public enum ExceptionType {
     // ========= 500 ==========
     BRAND_SAVE_ERROR (500,"商品保存失败"),
     ITEM_SAVE_ERROR (500,"新增商品失败"),
-    UPLOAD_FILE_ERROR (500,"文件上传失败");
+    UPLOAD_FILE_ERROR (500,"文件上传失败"),
+    CATEGORY_DELETE_ERROR(500,"品类删除异常");
+
 
     private int code;
     private String info;

@@ -34,5 +34,13 @@ public interface CategoryMapper extends Mapper<Category> , IdListMapper<Category
     @Select("select t.id id ,t.leaf leaf , t.name c1name , '' c2name , '' c3name , t.name fullname from t_category t where t.parent_id = 0 union select t2.id ,t2.leaf leaf, '' c1name , t2.name c2name , '' c3name , concat(t1.name , '/' , t2.name) fullname from t_category t1  inner JOIN t_category t2 on t1.id = t2.parent_id where t1.parent_id = 0 union select t3.id ,t3.leaf leaf, '' c1name , '' c2name , t3.name c3name , concat(t1.name , '/' , t2.name , '/' , t3.name) fullname from t_category t1  inner JOIN t_category t2 on t1.id = t2.parent_id  inner JOIN t_category t3 on t2.id = t3.parent_id where t1.parent_id = 0 order by id , fullname")
     List<CategoryVO> findTree() ;
 
+    /**
+     *  查找指定品类的子品类个数
+     */
+    @Select("select count(1) from t_category where parent_id = #{pid}")
+    int findSubCategories(@Param("pid") Long id);
+
+
+
 
 }

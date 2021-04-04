@@ -69,19 +69,17 @@
                                     <th id="th_c1">
                                         一级分类
                                         <a href="#">
-                                            <i class="glyphicon glyphicon-chevron-up" ></i>
+                                            <i class="glyphicon glyphicon-chevron-up"></i>
                                         </a>
                                     </th>
                                     <th id="th_c2">
                                         二级分类
                                         <a href="#">
-                                            <i class="glyphicon glyphicon-chevron-up" ></i>
+                                            <i class="glyphicon glyphicon-chevron-up"></i>
                                         </a>
                                     </th>
-
                                     <th>三级分类</th>
                                     <th></th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -90,7 +88,6 @@
                                     <td class="center" th:text="${e.c1name}"></td>
                                     <td class="center" th:text="${e.c2name}"></td>
                                     <td class="center" th:text="${e.c3name}"></td>
-
                                     <td class="center">
                                         <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editCategory(this)">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
@@ -183,7 +180,7 @@
                         </div>
                         <div class="form-group">
                             <label for="leaf">是否末级</label>
-                            <input type="checkbox" id="leaf" name="leaf" value="1">
+                            <input type="checkbox" id="leaf" name="leaf" value="1" checked ="checked" >
                         </div>
                         <div class="form-group">
                             <label for="idx">排序编号</label>
@@ -305,8 +302,6 @@
                 toast_success("品类保存成功!!!")
             })
         })
-
-
     })
 
     //失败吐司函数
@@ -327,69 +322,26 @@
     //删除品类
     function deleteCategory(a){
         //提取品类id
-        var bid = $(a).attr("data")
+        var cid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/category/deletebyid?id=" + bid , function () {
-                toast_success("删除成功!")
+            $.get("/category/deleteById?id=" + cid , function () {
+                toast_success("删除成功!");
             } )
+        }).error(function (r) {
+            toast_failure(r.responseText);
         });
 
         $("#div_diag_confirm .modal-header").text("删除确认");
-        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+bid+"</b> 吗?");
+        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+cid+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
     }
 
     //查看品类
     function viewCategory(a){
-        //查询品类id
-        var id = $(a).attr("data")
-
-        //设置同步请求
-        $.ajaxSettings.async=false
-        $.get("/category/findbyid?id=" + id , function (category) {
-            $("#div_view_category #span_id").text(category.id) ;
-            $("#div_view_category #span_name").text(category.name) ;
-            $("#div_view_category #img_image").attr("src" , category.image) ;
-            $("#div_view_category #span_firstLetter").text(category.firstLetter) ;
-        })
-        $.ajaxSettings.async = true
-        $.get("/category/findbybid?bid=" + id , function (data) {
-            var cnames = "" ;
-            for(var i = 0 ; i < data.length ; i ++){
-                cnames = cnames + data[i].name + " ; <br>"
-            }
-            $("#div_view_category #span_cnames").html(cnames) ;
-            $("#div_view_category").modal("show")
-        })
     }
 
     //修改品类
     function editCategory(a){
-        //查询品类id
-        var id = $(a).attr("data")
-        //设置同步请求
-        $.ajaxSettings.async=false
-        $.get("/category/findbyid?id=" + id , function (category) {
-            $("#myModal #id").val(category.id) ;
-            $("#myModal #name").val(category.name) ;
-            $("#myModal #img_logo_preview").attr("src" , category.image) ;
-            $("#myModal #firstLetter").val(category.firstLetter) ;
-        })
-        $.ajaxSettings.async = true
-
-        //查询品类所属的品类集合
-
-        $.get("/category/findbybid?bid=" + id , function (list) {
-            var arr = new Array(list.length) ;
-            for(var i = 0 ; i < list.length ; i ++){
-                arr[i] = list[i].id
-            }
-            //设置selector的值
-            $("#myModal form #sel_cids").val(arr)
-            //触发选中事件
-            $("#myModal form #sel_cids").trigger("chosen:updated")
-            $("#myModal").modal("show")
-        })
     }
 
     //切换下级品类可见性
@@ -450,9 +402,9 @@
     //增加子品类
     function addSubCategory(a){
         var pid = $(a).attr("data");
-        $("#myModal form ")[0].reset();
+        $("#myModal form")[0].reset();
         $("#myModal form #sel_parent_id").val(pid);
-        $("#myModal form #sel_parent_id").trigger("chosen:updated")
+        $("#myModal form #sel_parent_id").trigger("chosen:updated");
         $("#myModal").modal("show");
     }
 

@@ -60,4 +60,15 @@ public class CategoryController {
 		categoryService.saveOrUpdate(category) ;
 	}
 
+	/**
+	 * 按照id删除品类
+	 */
+	@GetMapping("/deletebyid")
+	@ResponseBody
+	public void deleteById(@RequestParam("cid") Long cid){
+		logger.info("[deleteById]开始删除{}",cid);
+		//删除数据库数据
+		categoryService.deleteById(cid) ;
+	}
+
 }
