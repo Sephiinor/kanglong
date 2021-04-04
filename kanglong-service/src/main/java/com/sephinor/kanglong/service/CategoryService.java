@@ -102,4 +102,19 @@ public class CategoryService {
 
 	}
 
+	/**
+	 * 按照id查询品类
+	 */
+	public Category findById(Long id){
+
+		logger.info("根据{}查品类",id);
+
+		Category category = categoryMapper.selectByPrimaryKey(id) ;
+		if(category == null){
+			logger.info("根据{}查无对应品类",id);
+			throw new KangLongException(ExceptionMessage.CATEGORY_NOT_FOUND_ERROR) ;
+		}
+		return category ;
+	}
+
 }

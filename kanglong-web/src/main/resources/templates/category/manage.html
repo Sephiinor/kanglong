@@ -180,7 +180,7 @@
                         </div>
                         <div class="form-group">
                             <label for="leaf">是否末级</label>
-                            <input type="checkbox" id="leaf" name="leaf" value="1" checked ="checked" >
+                            <input type="checkbox" id="leaf" name="leaf" value="1" >
                         </div>
                         <div class="form-group">
                             <label for="idx">排序编号</label>
@@ -188,7 +188,7 @@
                         </div>
                         <!-- 品类 -->
                         <div class="control-group">
-                            <label class="control-label" for="parent_id">所属品类 </label>
+                            <label class="control-label" for="sel_parent_id">所属品类 </label>
                             <div class="controls">
                                 <select id="sel_parent_id" data-rel="chosen" name="parentId">
                                     <option value="0" selected>一级品类</option>
@@ -342,6 +342,21 @@
 
     //修改品类
     function editCategory(a){
+        var cid = $(a).attr("data")
+        $.get("/category/findById?id=" + cid ,function (r) {
+            $("#myModal form #id").val(r.id)
+            $("#myModal form #name").val(r.name)
+            $("#myModal form #idx").val(r.idx)
+            if(r.leaf){
+                $("#myModal form #leaf").attr("checked","checked")
+                $("#myModal form #leaf").trigger("chosen:updated")
+            }
+            $("#myModal form #sel_parent_id").val(r.parentId)
+            $("#myModal form #sel_parent_id").trigger("chosen:updated")
+            $("#myModal").modal("show")
+        }).error(function (r) {
+            toast_failure(r.responseText)
+        })
     }
 
     //切换下级品类可见性

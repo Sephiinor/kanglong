@@ -47,4 +47,8 @@ public interface CategoryServiceApi {
     @GetMapping("/brand/deletebyid")
     void deleteById(@RequestParam("id") Long id) ;
 
+
+    //按照id查询
+    @GetMapping("/category/findById")
+    Category findById(@RequestParam("id") Long id ) ;
 }

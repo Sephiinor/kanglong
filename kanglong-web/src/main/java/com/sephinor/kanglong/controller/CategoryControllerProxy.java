@@ -95,4 +95,13 @@ public class CategoryControllerProxy {
         categoryServiceApi.deleteById(id);
     }
 
+    /**
+     *  品牌管理通过品牌Id查询品类
+     */
+    @GetMapping("/findById")
+    @ResponseBody
+    public Category findByCategoryId(@RequestParam("id") Long id){
+        return categoryServiceApi.findById(id) ;
+    }
+
 }

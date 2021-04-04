@@ -71,4 +71,10 @@ public class CategoryController {
 		categoryService.deleteById(cid) ;
 	}
 
+
+	//按照品牌id查询品类
+	@GetMapping("/findById")
+	public Category findById(@RequestParam("id") Long id){
+		return categoryService.findById(id);
+	}
 }
