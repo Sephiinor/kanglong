@@ -51,4 +51,12 @@ public interface CategoryServiceApi {
     //按照id查询
     @GetMapping("/category/findById")
     Category findById(@RequestParam("id") Long id ) ;
+
+
+    /**
+     *  查询指定分类的子类
+     * @return
+     */
+    @GetMapping("/category/findSubList")
+    List<Category> findSubList(@RequestParam("pid") Long pid ) ;
 }

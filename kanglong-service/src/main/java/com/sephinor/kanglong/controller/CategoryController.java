@@ -66,15 +66,27 @@ public class CategoryController {
 	@GetMapping("/deletebyid")
 	@ResponseBody
 	public void deleteById(@RequestParam("cid") Long cid){
-		logger.info("[deleteById]开始删除{}",cid);
+		logger.info("【CategoryController.deleteById】的入参为: cid:{} =",cid);
 		//删除数据库数据
 		categoryService.deleteById(cid) ;
 	}
 
 
-	//按照品牌id查询品类
+	/**
+	 * 按照id查询品类
+	 */
 	@GetMapping("/findById")
 	public Category findById(@RequestParam("id") Long id){
 		return categoryService.findById(id);
+	}
+
+
+	/**
+	 * 查询子品类的列表
+	 */
+	@GetMapping("/findSubList")
+	public List<Category> findSubList(@RequestParam("pid") Long pid){
+		logger.info("【CategoryController.findSubList】的入参为: pid:{} ",pid);
+		return categoryService.findSubList(pid) ;
 	}
 }

@@ -38,9 +38,13 @@ public interface CategoryMapper extends Mapper<Category> , IdListMapper<Category
      *  查找指定品类的子品类个数
      */
     @Select("select count(1) from t_category where parent_id = #{pid}")
-    int findSubCategories(@Param("pid") Long id);
+    int findSubCount(@Param("pid") Long id);
 
 
 
-
+    /**
+     *  查找指定品类的子品类
+     */
+    @Select("select * from t_category where parent_id = #{pid}")
+    List<Category> findSubList(@Param("pid") Long pid);
 }

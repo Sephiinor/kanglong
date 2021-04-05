@@ -73,6 +73,8 @@ public class CategoryControllerProxy {
     @PostMapping("/saveOrUpdate")
     @ResponseBody
     public void saveOrUpdate(Category category) {
+        logger.info("【CategoryControllerProxy . saveOrUpdate】的入参为: category:{}",category.toString());
+
         //叶子节点默认为false
         if(null == category.getLeaf() || "".equals(category.getLeaf())){
             category.setLeaf(false);
@@ -91,7 +93,7 @@ public class CategoryControllerProxy {
     @GetMapping("/deleteById")
     @ResponseBody
     public void deleteById(@RequestParam("id") Long id){
-        logger.info("执行删除品类{}",id);
+        logger.info("【CategoryControllerProxy.deleteById】的入参为: id:{} =",id);
         categoryServiceApi.deleteById(id);
     }
 
@@ -101,6 +103,7 @@ public class CategoryControllerProxy {
     @GetMapping("/findById")
     @ResponseBody
     public Category findByCategoryId(@RequestParam("id") Long id){
+        logger.info("【CategoryControllerProxy . findByCategoryId】的入参为: id:{}",id);
         return categoryServiceApi.findById(id) ;
     }
 

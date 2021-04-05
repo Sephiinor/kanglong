@@ -78,9 +78,9 @@ public class CategoryService {
 	 */
 	@Transactional
 	public void deleteById(@RequestParam("id") Long id){
-
+		logger.info("【CategoryService.deleteById】的入参为: id:{} ",id);
 		//查找子品牌的数量
-		int subCount = categoryMapper.findSubCategories(id);
+		int subCount = categoryMapper.findSubCount(id);
 		if(subCount != 0){
 			logger.error("品类删除异常,{}存在子类,无法删除",id);
 			throw  new KangLongException(ExceptionMessage.CATEGORY_DELETE_ERROR);
@@ -115,6 +115,16 @@ public class CategoryService {
 			throw new KangLongException(ExceptionMessage.CATEGORY_NOT_FOUND_ERROR) ;
 		}
 		return category ;
+	}
+
+
+	/**
+	 *  查询子品类
+	 * @param pid  父品类id
+	 * @return
+	 */
+	public List<Category> findSubList(Long  pid){
+		return categoryMapper.findSubList(pid);
 	}
 
 }
