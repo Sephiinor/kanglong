@@ -235,7 +235,7 @@
         //绑定一级分类下拉列表
         $("#sel_c1").change(function () {
             var pid = $("#sel_c1").val()
-            $.get("/category/findsublist?pid="+pid , function (data) {
+            $.get("/category/findSubList?pid="+pid , function (data) {
                 $("#sel_c2").empty()
                 for(var i = 0 ; i < data.length ; i ++){
                     $("#sel_c2").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>")

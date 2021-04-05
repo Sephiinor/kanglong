@@ -107,4 +107,14 @@ public class CategoryControllerProxy {
         return categoryServiceApi.findById(id) ;
     }
 
+    /**
+     *  品牌管理通过品牌Id查询品类
+     */
+    @GetMapping("/findSubList")
+    @ResponseBody
+    public List<Category> findSubList(@RequestParam("pid") Long pid){
+        logger.info("【CategoryControllerProxy.findSubList】的入参为: pid:{} ",pid);
+        return categoryServiceApi.findSubList(pid) ;
+    }
+
 }
