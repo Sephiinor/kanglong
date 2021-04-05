@@ -85,9 +85,9 @@
                                 <tbody>
                                 <tr th:each="e : ${list} ">
                                     <td th:text="${e.id}"></td>
-<!--                                    <td class="center" th:text="${e.c1name}"></td>
-                                    <td class="center" th:text="${e.c2name}"></td>
-                                    <td class="center" th:text="${e.c3name}"></td>-->
+                                    <td class="center"></td>
+                                    <td class="center"></td>
+                                    <td class="center"></td>
                                     <td class="center">
                                         <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editCategory(this)">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
@@ -134,23 +134,7 @@
                         <label for="id">品类ID</label><br>
                         <span id="span_id"></span>
                     </div>
-                    <div class="form-group">
-                        <label for="id">品类名称</label><br>
-                        <span id="span_name"></span>
-                    </div>
-<!--                    <div class="form-group">
-                        <label for="image">品类Logo</label><br>
-                        <img id="img_image" style="max-width: 200px ; max-height: 200px"></img>
-                    </div>
-                    <div class="form-group">
-                        <label for="firstLetter">品类首字母</label><br>
-                        <span id="span_firstLetter"></span>
-                    </div>
-                    &lt;!&ndash; 品类 &ndash;&gt;
-                    <div class="form-group">
-                        <label class="control-label" for="sel_cids">品类</label><br>
-                        <span id="span_cnames"></span>
-                    </div>-->
+
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
@@ -185,16 +169,6 @@
                         <div class="form-group">
                             <label for="idx">排序编号</label>
                             <input type="text" class="form-control" id="idx" name="idx" placeholder="排序编号">
-                        </div>
-                        <!-- 品类 -->
-                        <div class="control-group">
-                            <label class="control-label" for="sel_parent_id">所属品类 </label>
-                            <div class="controls">
-                                <select id="sel_parent_id" data-rel="chosen" name="parentId">
-                                    <option value="0" selected>一级品类</option>
-<!--                                    <option th:each="e : ${list}" th:value="${e.id}" th:text="${e.fullname}"></option>-->
-                                </select>
-                            </div>
                         </div>
                     </form>
                     <!-- 新增/修改品类-起始 -->
@@ -257,6 +231,18 @@
     $(function () {
         //修改选择框的宽度
         $(".chosen-container").css("width" , "15%")
+
+        //绑定一级分类下拉列表
+        $("#sel_c1").change(function () {
+            var pid = $("#sel_c1").val()
+            $.get("/category/findsublist?pid="+pid , function (data) {
+                $("#sel_c2").empty()
+                for(var i = 0 ; i < data.length ; i ++){
+                    $("#sel_c2").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>")
+                }
+                $("#sel_c2").trigger("chosen:updated") ;
+            })
+        })
 
         //一级分类表头收起或展开
         $("#th_c1 a").click(function () {
