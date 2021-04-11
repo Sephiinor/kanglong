@@ -4,6 +4,7 @@ package com.sephinor.kanglong.controller;
 import com.sephinor.common.entity.Category;
 import com.sephinor.common.entity.SpecGroup;
 import com.sephinor.common.vo.CategoryVO;
+import com.sephinor.common.vo.SpecGroupVO;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
 import com.sephinor.kangkong.service.api.SpecGroupServiceApi;
 import org.slf4j.Logger;
@@ -35,9 +36,13 @@ public class SpecControllerProxy {
     @RequestMapping("/index")
     public String index(Model model){
         //查询指定分类的分类集合
-        List<Category> list= categoryService.findSubList(0L);
+        List<Category> categories= categoryService.findSubList(0L);
+        //查询所有商户组
+        List<SpecGroupVO> list = specGroupService.findGroups();
+
         //发送UI组件
-        model.addAttribute("list",list);
+        model.addAttribute("list" , list) ;
+        model.addAttribute("categories",categories);
 
         return "/spec/manage";
     }
@@ -54,4 +59,5 @@ public class SpecControllerProxy {
         return specGroupService.findByCid(cid);
 
     }
+
 }

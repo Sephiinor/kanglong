@@ -7,6 +7,7 @@ import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.exception.ExceptionMessage;
 import com.sephinor.common.exception.KangLongException;
 import com.sephinor.common.vo.CategoryVO;
+import com.sephinor.common.vo.SpecGroupVO;
 import com.sephinor.kanglong.mapper.BrandMapper;
 import com.sephinor.kanglong.mapper.CategoryMapper;
 import com.sephinor.kanglong.mapper.SpecGroupMapper;
@@ -44,14 +45,22 @@ public class SpecGroupService {
 	public  List<SpecGroup> findByCid(Long cid){
 		logger.info("【SpecGroupService.findByCid】的入参为: cid:{} ",cid);
 		List<SpecGroup>  list=specGroupMapper.findByCid(cid);
+		logger.info("【SpecGroupService.findByCid】 list{}",list.size()==0?"为空,不遍历":"不为空,开始遍历");
 		if(!CollectionUtils.isEmpty(list)){
-			logger.info("【SpecGroupService.findByCid】 list不为空,开始遍历");
 			for (SpecGroup group : list ) {
 				List<SpecParam> params = specParamMapper.findByCid(group.getId());
 				group.setParams(params);
 			}
 		}
 		return list;
+	}
+
+	/**
+	 *  查询规格组,按照品类排序
+	 * @return
+	 */
+	public  List<SpecGroupVO> findGroup(){
+		return specGroupMapper.findGroups();
 	}
 
 }
