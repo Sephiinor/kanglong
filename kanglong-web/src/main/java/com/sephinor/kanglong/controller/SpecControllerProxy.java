@@ -36,7 +36,7 @@ public class SpecControllerProxy {
     @RequestMapping("/index")
     public String index(Model model){
         //查询指定分类的分类集合
-        List<Category> categories= categoryService.findSubList(0L);
+        List<CategoryVO> categories= categoryService.findTree().getBody();
         //查询所有商户组
         List<SpecGroupVO> list = specGroupService.findGroups();
 
