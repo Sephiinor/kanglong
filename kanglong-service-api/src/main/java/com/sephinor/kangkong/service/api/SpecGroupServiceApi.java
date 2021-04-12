@@ -29,4 +29,8 @@ public interface SpecGroupServiceApi {
 
     @GetMapping("/specGroup/findGroups")
     List<SpecGroupVO> findGroups();
+
+
+    @PostMapping("/specGroup/saveOrUpdate")
+    void saveOrUpdateGroup(@RequestBody SpecGroup group );
 }

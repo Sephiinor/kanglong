@@ -1,7 +1,6 @@
 package com.sephinor.kanglong.controller;
 
 
-import com.sephinor.common.entity.Category;
 import com.sephinor.common.entity.SpecGroup;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
@@ -44,7 +43,7 @@ public class SpecControllerProxy {
         model.addAttribute("list" , list) ;
         model.addAttribute("categories",categories);
 
-        return "/spec/manage";
+        return "spec/groupManage";
     }
 
 
@@ -59,5 +58,17 @@ public class SpecControllerProxy {
         return specGroupService.findByCid(cid);
 
     }
+
+    /**
+     *  查询所有规格组,按照品类排序
+     * @return
+     */
+    @PostMapping("/saveOrUpdate")
+    @ResponseBody
+    public  void  saveOrUpdateGroup( SpecGroup group ){
+        logger.info("【SpecControllerProxy.saveOrUpdateGroup】的入参为: group:{} ",group.toString());
+        specGroupService.saveOrUpdateGroup(group);
+    }
+
 
 }

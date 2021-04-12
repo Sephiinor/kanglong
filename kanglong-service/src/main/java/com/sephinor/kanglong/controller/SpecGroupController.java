@@ -47,4 +47,17 @@ public class SpecGroupController {
 		return specGroupService.findGroup();
 	}
 
+
+	/**
+	 *  查询所有规格组,按照品类排序
+	 * @return
+	 */
+	@PostMapping("/saveOrUpdate")
+	public  void  saveOrUpdateGroup(@RequestBody SpecGroup group ){
+		specGroupService.saveOrUpdateGroup(group);
+	}
+
+
+
+
 }

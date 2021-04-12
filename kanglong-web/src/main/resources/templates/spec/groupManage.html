@@ -163,11 +163,11 @@
                                 </select>
                         </div>
                     </form>
-                    <!-- 新增/修改品类-起始 -->
+                    <!-- 新增/修改规格组-起始 -->
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-                    <a id="a_btn_save_category" href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
+                    <a id="a_btn_save_specGroup" href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
                 </div>
             </div>
         </div>
@@ -296,11 +296,13 @@
         })
 
         //绑定保存按钮
-        $("#myModal #a_btn_save_category").click(function () {
+        $("#myModal #a_btn_save_specGroup").click(function () {
             var formdata = $("#myModal form").serialize()
-            $.post("/category/saveOrUpdate" , formdata , function () {
-                toast_success("品类保存成功!!!")
-            })
+            $.post("/spec/saveOrUpdate" , formdata , function () {
+                toast_success("规格组保存成功!!!")
+            }).error(function (r) {
+                toast_failure(r.responseText)
+            });
         })
     })
 

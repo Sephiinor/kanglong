@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestParam;
+import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -61,6 +62,19 @@ public class SpecGroupService {
 	 */
 	public  List<SpecGroupVO> findGroup(){
 		return specGroupMapper.findGroups();
+	}
+
+
+	/**
+	 *  插入规格组
+	 * @param group
+	 */
+	public void saveOrUpdateGroup(SpecGroup group){
+		if("".equals(group.getId()) || null == group.getId()) {
+			specGroupMapper.insert(group);
+		}else {
+			//更新操作
+		}
 	}
 
 }
