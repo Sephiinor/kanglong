@@ -28,7 +28,7 @@ public interface SpecGroupMapper extends Mapper<SpecGroup> , IdListMapper<SpecGr
      *  查询规格组数据,根据品类排序
      * @return
      */
-    @Select("select a.id id , a.name name ,b.name cname  from t_spec_group a INNER JOIN t_category b where a.cid = b.id ORDER BY a.cid,a.id")
+    @Select("select a.id id , a.name name ,b.id cid , b.name cname  from t_spec_group a INNER JOIN t_category b where a.cid = b.id ORDER BY a.cid,a.id")
     List<SpecGroupVO> findGroups();
 
     /**

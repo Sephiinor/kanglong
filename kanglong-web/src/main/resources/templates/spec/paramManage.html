@@ -35,7 +35,7 @@
                         <a href="#">数据管理</a>
                     </li>
                     <li>
-                        <a href="#">规格组管理</a>
+                        <a href="#">规格参数管理</a>
                     </li>
                 </ul>
             </div>
@@ -44,7 +44,7 @@
                 <div class="box col-md-12">
                     <div class="box-inner">
                         <div class="box-header well" data-original-title="">
-                            <h2><i class="glyphicon glyphicon-user"></i> 规格组管理</h2>
+                            <h2><i class="glyphicon glyphicon-user"></i> 规格参数管理</h2>
 
                             <div class="box-icon">
                                 <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
@@ -58,7 +58,7 @@
                                 <div class="control-group">
                                     <a id = "a_btn_add_specGroup" class="btn btn-info" href="#">
                                         <i class="glyphicon glyphicon-plus-sign icon-white"></i>
-                                        新增规格组
+                                        新增规格参数
                                     </a>
                                     <div class="controls">
                                         <label class="control-label" for="sel_c1">请选择分类 </label>
@@ -78,7 +78,7 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>规格组名称</th>
+                                    <th>规格参数名称</th>
                                     <th>所属品类</th>
                                     <th></th>
                                 </tr>
@@ -98,7 +98,7 @@
                                             删除
                                         </a>
                                         <a class="btn btn-danger" th:href="@{/spec/paramIndex(cid=${e.cid})}" th:data="${e.id}">
-                                            <i class="glyphicon glyphicon-edit icon-white"></i>
+                                            <i class="glyphicon glyphicon-trash icon-white"></i>
                                             参数管理
                                         </a>
                                     </td>
@@ -138,25 +138,25 @@
             </div>
         </div>
     </div>
-    <!--新增/编辑规格组-->
+    <!--新增/编辑规格参数-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">×</button>
-                    <h4>新增/修改规格组</h4>
+                    <h4>新增/修改规格参数</h4>
                 </div>
                 <div class="modal-body">
-                    <!-- 新增/修改规格组-起始 -->
+                    <!-- 新增/修改规格参数-起始 -->
                     <form id="form_specGroup" role="form">
                         <div class="form-group">
-                            <label for="id">规格组ID</label>
-                            <input type="text" class="form-control" id="id" name="id" placeholder="规格组ID" readonly="readonly">
+                            <label for="id">规格参数ID</label>
+                            <input type="text" class="form-control" id="id" name="id" placeholder="规格参数ID" readonly="readonly">
                         </div>
                         <div class="form-group">
-                            <label for="name">规格组名称</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="规格组名称">
+                            <label for="name">规格参数名称</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="规格参数名称">
                         </div>
                         <div class="form-group">
                             <label for="cid">所属品类</label>
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                     </form>
-                    <!-- 新增/修改规格组-起始 -->
+                    <!-- 新增/修改规格参数-起始 -->
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
@@ -294,7 +294,7 @@
             }
         }) ;
 
-        //工具栏新增规格组
+        //工具栏新增规格参数
         $("#a_btn_add_specGroup").click(function () {
             $("#myModal form")[0].reset()
             $("#myModal").modal("show")
@@ -304,7 +304,7 @@
         $("#myModal #a_btn_save_specGroup").click(function () {
             var formdata = $("#myModal form").serialize()
             $.post("/spec/saveOrUpdate" , formdata , function () {
-                toast_success("规格组保存成功!!!")
+                toast_success("规格参数保存成功!!!")
             }).error(function (r) {
                 toast_failure(r.responseText)
             });
@@ -347,9 +347,9 @@
     function viewCategory(a){
     }
 
-    //修改规格组
+    //修改规格参数
     function editSpecGroup(a){
-        //提取规格组id
+        //提取规格参数id
         var gid = $(a).attr("data")
         $.get("/spec/findByGid?gid=" + gid ,function (r) {
             $("#myModal form #id").val(r.id)

@@ -47,6 +47,17 @@ public class SpecControllerProxy {
         return "spec/groupManage";
     }
 
+    /**
+     *  规格组管理入口
+     * @return
+     */
+    @RequestMapping("/paramIndex")
+    public String paramManage(@RequestParam("cid") Long cid){
+
+
+        return "spec/paramManage";
+    }
+
 
     /**
      *  按照品类id查询规格参数
