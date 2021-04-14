@@ -31,4 +31,12 @@ public interface SpecGroupMapper extends Mapper<SpecGroup> , IdListMapper<SpecGr
     @Select("select a.id id , a.name name ,b.name cname  from t_spec_group a INNER JOIN t_category b where a.cid = b.id ORDER BY a.cid,a.id")
     List<SpecGroupVO> findGroups();
 
+    /**
+     *  根据id查询规格组
+     * @param id
+     * @return
+     */
+    @Select("select * from t_spec_group where id= #{id}")
+    SpecGroup findById(@Param("id") Long id);
+
 }

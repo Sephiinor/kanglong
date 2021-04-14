@@ -39,6 +39,17 @@ public class SpecGroupController {
 	}
 
 	/**
+	 *  按照规格组id查询规格参数
+	 * @return
+	 */
+	@GetMapping("/findById")
+	public SpecGroup findById(@RequestParam("id") Long  id){
+		logger.info("【SpecGroupController.findById】的入参为: id:{} ",id);
+		return specGroupService.findById(id);
+
+	}
+
+	/**
 	 *  查询所有规格组,按照品类排序
 	 * @return
 	 */

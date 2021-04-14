@@ -25,7 +25,13 @@ public interface SpecGroupServiceApi {
     @GetMapping("/specGroup/findByCid")
     List<SpecGroup> findByCid(@RequestParam("cid") Long  cid);
 
-
+    /**
+     *  根据规格组id查找规格参数
+     * @param id
+     * @return
+     */
+    @GetMapping("/specGroup/findById")
+    SpecGroup findById(@RequestParam("id") Long  id);
 
     @GetMapping("/specGroup/findGroups")
     List<SpecGroupVO> findGroups();

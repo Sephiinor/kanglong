@@ -71,4 +71,16 @@ public class SpecControllerProxy {
     }
 
 
+    /**
+     *  按照规格组id查询规格参数
+     * @return
+     */
+    @GetMapping("/findByGid")
+    @ResponseBody
+    public SpecGroup findById(@RequestParam("gid") Long  gid){
+        logger.info("【SpecControllerProxy.findById】的入参为: gid:{} ",gid);
+        return specGroupService.findById(gid);
+
+    }
+
 }

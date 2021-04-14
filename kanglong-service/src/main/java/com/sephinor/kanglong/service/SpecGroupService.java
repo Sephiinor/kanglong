@@ -77,4 +77,10 @@ public class SpecGroupService {
 		}
 	}
 
+
+	public SpecGroup findById(Long  id){
+
+		return  specGroupMapper.findById(id);
+	}
+
 }

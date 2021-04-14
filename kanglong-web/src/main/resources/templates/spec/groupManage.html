@@ -89,11 +89,11 @@
                                     <td class="center" th:text="${e.name}"></td>
                                     <td class="center" th:text="${e.cname}"></td>
                                     <td class="center">
-                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editCategory(this)">
+                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editSpecGroup(this)">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             修改
                                         </a>
-                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteCategory(this)">
+                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteSpecGroup(this)">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             删除
                                         </a>
@@ -322,7 +322,7 @@
     }
 
     //删除品类
-    function deleteCategory(a){
+    function deleteSpecGroup(a){
         //提取品类id
         var cid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
@@ -343,17 +343,13 @@
     }
 
     //修改品类
-    function editCategory(a){
-        var cid = $(a).attr("data")
-        $.get("/category/findById?id=" + cid ,function (r) {
+    function editSpecGroup(a){
+        // 提取规格组id
+        var gid = $(a).attr("data")
+        $.get("/spec/findByGid?gid=" + gid ,function (r) {
             $("#myModal form #id").val(r.id)
             $("#myModal form #name").val(r.name)
-            $("#myModal form #idx").val(r.idx)
-            if(r.leaf){
-                $("#myModal form #leaf").attr("checked", "checked")
-                $("#myModal form #leaf").trigger("chosen:updated")
-            }
-            $("#myModal form #sel_parent_id").val(r.parentId)
+            $("#myModal form #cid").val(r.cid)
             $("#myModal form #sel_parent_id").trigger("chosen:updated")
             $("#myModal").modal("show")
         }).error(function (r) {
