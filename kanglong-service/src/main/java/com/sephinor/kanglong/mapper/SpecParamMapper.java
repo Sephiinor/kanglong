@@ -16,5 +16,5 @@ public interface SpecParamMapper extends Mapper<SpecParam> , IdListMapper<SpecPa
 
 
     @Select("select * from t_spec_param where group_id = #{gid}")
-    List<SpecParam> findByCid(@Param("gid") Long gid);
+    List<SpecParam> findByGid(@Param("gid") Long gid);
 }

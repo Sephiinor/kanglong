@@ -69,6 +69,15 @@ public class SpecGroupController {
 	}
 
 
-
+	/**
+	 * 按照id删除品类
+	 */
+	@GetMapping("/deletebyId")
+	@ResponseBody
+	public void deleteById(@RequestParam("id") Long id){
+		logger.info("【SpecGroupController.deleteById】的入参为: id:{} ",id);
+		//按照id删除规格组
+		specGroupService.deleteById(id) ;
+	}
 
 }

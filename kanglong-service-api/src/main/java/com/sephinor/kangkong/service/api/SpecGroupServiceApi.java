@@ -39,4 +39,11 @@ public interface SpecGroupServiceApi {
 
     @PostMapping("/specGroup/saveOrUpdate")
     void saveOrUpdateGroup(@RequestBody SpecGroup group );
+
+    /**
+     *  根据id删除规格组
+     * @param id
+     */
+    @GetMapping("/specGroup/deletebyId")
+    void deleteById(@RequestParam("id") Long id) ;
 }

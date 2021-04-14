@@ -161,6 +161,7 @@
                                     <option value="0" selected>请选择品类</option>
                                     <option th:each="e : ${categories}" th:value="${e.id}" th:text="${e.fullname}"></option>
                                 </select>
+                            </div>
                         </div>
                     </form>
                     <!-- 新增/修改规格组-起始 -->
@@ -324,9 +325,9 @@
     //删除品类
     function deleteSpecGroup(a){
         //提取品类id
-        var cid = $(a).attr("data")
+        var gid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/category/deleteById?id=" + cid , function () {
+            $.get("/spec/deleteGroupByGid?gid=" + gid , function () {
                 toast_success("删除成功!")
             }).error(function (r) {
                 toast_failure(r.responseText)
@@ -334,7 +335,7 @@
         })
 
         $("#div_diag_confirm .modal-header").text("删除确认");
-        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+cid+"</b> 吗?");
+        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+gid+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
     }
 
@@ -342,15 +343,15 @@
     function viewCategory(a){
     }
 
-    //修改品类
+    //修改规格组
     function editSpecGroup(a){
-        // 提取规格组id
+        //提取规格组id
         var gid = $(a).attr("data")
         $.get("/spec/findByGid?gid=" + gid ,function (r) {
             $("#myModal form #id").val(r.id)
             $("#myModal form #name").val(r.name)
             $("#myModal form #cid").val(r.cid)
-            $("#myModal form #sel_parent_id").trigger("chosen:updated")
+            $("#myModal form #cid").trigger("chosen:updated")
             $("#myModal").modal("show")
         }).error(function (r) {
             toast_failure(r.responseText)

@@ -2,6 +2,7 @@ package com.sephinor.kanglong.controller;
 
 
 import com.sephinor.common.entity.SpecGroup;
+import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
@@ -83,4 +84,13 @@ public class SpecControllerProxy {
 
     }
 
+    @GetMapping("/deleteGroupByGid")
+    @ResponseBody
+    public void deleteById(@RequestParam("gid") Long gid){
+        logger.info("【SpecControllerProxy.deleteById】的入参为: gid:{} ",gid);
+
+        specGroupService.deleteById(gid);
+    }
+    
+    
 }

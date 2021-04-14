@@ -1,25 +1,17 @@
 package com.sephinor.kanglong.service;
 
-import com.sephinor.common.entity.Brand;
-import com.sephinor.common.entity.Category;
 import com.sephinor.common.entity.SpecGroup;
 import com.sephinor.common.entity.SpecParam;
-import com.sephinor.common.exception.ExceptionMessage;
 import com.sephinor.common.exception.KangLongException;
-import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
-import com.sephinor.kanglong.mapper.BrandMapper;
-import com.sephinor.kanglong.mapper.CategoryMapper;
 import com.sephinor.kanglong.mapper.SpecGroupMapper;
 import com.sephinor.kanglong.mapper.SpecParamMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestParam;
-import tk.mybatis.mapper.util.StringUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -49,7 +41,7 @@ public class SpecGroupService {
 		logger.info("【SpecGroupService.findByCid】 list{}",list.size()==0?"为空,不遍历":"不为空,开始遍历");
 		if(!CollectionUtils.isEmpty(list)){
 			for (SpecGroup group : list ) {
-				List<SpecParam> params = specParamMapper.findByCid(group.getId());
+				List<SpecParam> params = specParamMapper.findByGid(group.getId());
 				group.setParams(params);
 			}
 		}
@@ -70,17 +62,38 @@ public class SpecGroupService {
 	 * @param group
 	 */
 	public void saveOrUpdateGroup(SpecGroup group){
+		logger.info("【SpecGroupService.saveOrUpdateGroup】的入参为: group:{} ",group);
 		if("".equals(group.getId()) || null == group.getId()) {
+			logger.info("【SpecGroupService.saveOrUpdateGroup】新增规格组,group={} ",group);
 			specGroupMapper.insert(group);
 		}else {
-			//更新操作
+			logger.info("【SpecGroupService.saveOrUpdateGroup】修改规格组,group={} ",group);
+			specGroupMapper.updateByPrimaryKey(group);
 		}
 	}
 
 
 	public SpecGroup findById(Long  id){
-
 		return  specGroupMapper.findById(id);
+	}
+
+
+	/**
+	 *  删除规格组,不能有子类,不能有关联品牌
+	 * @param id
+	 */
+	@Transactional
+	public void deleteById(@RequestParam("id") Long id){
+		logger.info("【SpecGroupService.deleteById】的入参为: id:{} ",id);
+		List<SpecParam> params = specParamMapper.findByGid(id);
+		if(CollectionUtils.isEmpty(params)){
+			logger.info("【SpecGroupService.deleteById】开始执行删除{}",id);
+			specGroupMapper.deleteByPrimaryKey(id);
+		}else{
+			logger.error("[{}]该组还有子类,不允许删除",id);
+			throw new KangLongException("该组含子类,不允许删除");
+		}
+
 	}
 
 }
