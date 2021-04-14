@@ -1,6 +1,7 @@
 package com.sephinor.kanglong.mapper;
 
 import com.sephinor.common.entity.SpecParam;
+import com.sephinor.common.vo.SpecParamVO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import tk.mybatis.mapper.additional.idlist.IdListMapper;
@@ -17,4 +18,10 @@ public interface SpecParamMapper extends Mapper<SpecParam> , IdListMapper<SpecPa
 
     @Select("select * from t_spec_param where group_id = #{gid}")
     List<SpecParam> findByGid(@Param("gid") Long gid);
+
+
+    //按照品类查询规格参数
+    @Select("select a.id id , a.cid cid , a.generic generic , a.group_id groupId , a.`name` name , a.`numeric` `numeric` , a.searching searching , a.segments segments , a.unit unit , b.`name` cname , c.`name` groupName  from t_spec_param a , t_category b , t_spec_group c where a.cid = b.id and a.group_id = c.id and a.cid = #{cid} order by a.group_id")
+    List<SpecParamVO> findByCid(@Param("cid") Long cid) ;
+
 }

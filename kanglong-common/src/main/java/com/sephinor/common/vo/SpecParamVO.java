@@ -2,6 +2,9 @@ package com.sephinor.common.vo;
 
 import lombok.Data;
 
+/**
+ *  规格参数VO
+ */
 @Data
 public class SpecParamVO {
 

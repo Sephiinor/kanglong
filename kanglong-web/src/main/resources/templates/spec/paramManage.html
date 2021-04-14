@@ -78,16 +78,28 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>规格参数名称</th>
                                     <th>所属品类</th>
+                                    <th>所属规格组</th>
+                                    <th>参数名称</th>
+                                    <th>是否数值</th>
+                                    <th>计量单位</th>
+                                    <th>是否常规项</th>
+                                    <th>是否可搜索</th>
+                                    <th>候选值</th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="e : ${list} ">
+                                <tr th:each="e : ${params} ">
                                     <td th:text="${e.id}"></td>
-                                    <td class="center" th:text="${e.name}"></td>
                                     <td class="center" th:text="${e.cname}"></td>
+                                    <td class="center" th:text="${e.groupName}"></td>
+                                    <td class="center" th:text="${e.name}"></td>
+                                    <td class="center" th:text="${e.unit}"></td>
+                                    <td class="center" th:text="${e.numeric}?'是':'否'"></td>
+                                    <td class="center" th:text="${e.generic}?'是':'否'"></td>
+                                    <td class="center" th:text="${e.searching}?'是':'否'"></td>
+                                    <td class="center" th:text="${e.segments}"></td>
                                     <td class="center">
                                         <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editSpecGroup(this)">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
@@ -96,10 +108,6 @@
                                         <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteSpecGroup(this)">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             删除
-                                        </a>
-                                        <a class="btn btn-danger" th:href="@{/spec/paramIndex(cid=${e.cid})}" th:data="${e.id}">
-                                            <i class="glyphicon glyphicon-trash icon-white"></i>
-                                            参数管理
                                         </a>
                                     </td>
                                 </tr>

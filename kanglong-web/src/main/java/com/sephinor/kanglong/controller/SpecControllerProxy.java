@@ -5,8 +5,10 @@ import com.sephinor.common.entity.SpecGroup;
 import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
+import com.sephinor.common.vo.SpecParamVO;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
 import com.sephinor.kangkong.service.api.SpecGroupServiceApi;
+import com.sephinor.kangkong.service.api.SpecParamServiceApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class SpecControllerProxy {
 
     @Autowired
     private SpecGroupServiceApi specGroupService;
+
+    @Autowired
+    private SpecParamServiceApi specParamService;
 
     /**
      *  规格组管理入口
@@ -52,8 +57,10 @@ public class SpecControllerProxy {
      * @return
      */
     @RequestMapping("/paramIndex")
-    public String paramManage(@RequestParam("cid") Long cid){
+    public String paramManage(Model model ,@RequestParam("cid") Long cid){
 
+        List<SpecParamVO> params = specParamService.findByCid(cid) ;
+        model.addAttribute("params" , params) ;
 
         return "spec/paramManage";
     }
