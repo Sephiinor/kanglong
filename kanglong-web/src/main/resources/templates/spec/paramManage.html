@@ -61,7 +61,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <table class="table table-striped table-bordered responsive">
+                            <table id="tbl_specparam" class="table table-striped table-bordered responsive">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
@@ -155,33 +155,28 @@
                         </div>
                         <div class="form-group">
                             <label for="unit">计量单位</label>
-                            <input type="text" class="form-control" id="unit" name="unit" >
+                            <input type="text" class="form-control" id="unit" name="unit" placeholder="计量单位">
                         </div>
-                        <div class="form-group">
-                            <label >
-                                <input type="checkbox"  id="numeric" name="numeric" > 是否数值
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label >
-                                <input type="checkbox" id="generic" name="generic" >是否常规参数
-                            </label>
-                        </div>
-                        <div class="form-group">
+                        <div class="checkbox">
                             <label>
-                                <input type="checkbox" id="searching" name="searching" >是否可搜索
+                                <input type="checkbox" id="numeric" name="numeric"> 数值
                             </label>
                         </div>
-<!--                        <div class="form-group">
-                            <label for="segments">段信息</label>
-                            <input type="checkbox" class="form-control" id="segments" name="segments" >
-                        </div>-->
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="generic" name="generic"> 常规参数
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="searching" name="searching"> 可搜索
+                            </label>
+                        </div>
                         <div class="form-group">
                             <label for="cid">所属品类</label>
                             <div class = "controls" >
                                 <select id = "cid" data-rel="chosen" name="cid">
                                     <option value="0" selected>请选择品类</option>
-                                    <!--<option th:each="e : ${categories}" th:value="${e.id}" th:text="${e.fullname}"></option>-->
                                 </select>
                             </div>
                         </div>
@@ -190,7 +185,6 @@
                             <div class = "controls" >
                                 <select id = "groupId" data-rel="chosen" name="groupId">
                                     <option value="0" selected>请选择品类</option>
-                                    <!--<option th:each="e : ${categories}" th:value="${e.id}" th:text="${e.fullname}"></option>-->
                                 </select>
                             </div>
                         </div>
@@ -271,9 +265,9 @@
 
                 sel_cid.append("<option value='"+ allCategories[i].id+"'>"+ allCategories[i].fullname+"</option>")
             }
-            sel_cid.trigger("chosen:updated") ;
-            $.ajaxSettings.async = true
+            sel_cid.trigger("chosen:updated");
         })
+        $.ajaxSettings.async = true
 
         //绑定品类列表下拉列表选择改变事件
         $("#cid").change(function () {
@@ -281,9 +275,11 @@
             var cid = $(this).val()
             if (allSpecGroups[cid] == null) {
                 $.ajaxSettings.async = false
+                // 当cid = 76时 有数据 , 手机/手机通讯/手机
                 $.get("/spec/findByCid?cid=" + cid , function (data) {
                     allSpecGroups[cid] = data ;
                 })
+                $.ajaxSettings.async = true
             }
 
             //下级控件
