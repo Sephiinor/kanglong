@@ -3,9 +3,7 @@ package com.sephinor.kanglong.controller;
 
 import com.sephinor.common.entity.Category;
 import com.sephinor.common.vo.CategoryVO;
-import com.sephinor.common.vo.PageResult;
 import com.sephinor.kangkong.service.api.CategoryServiceApi;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +113,17 @@ public class CategoryControllerProxy {
     public List<Category> findSubList(@RequestParam("pid") Long pid){
         logger.info("【CategoryControllerProxy.findSubList】的入参为: pid:{} ",pid);
         return categoryServiceApi.findSubList(pid) ;
+    }
+
+
+    /**
+     *  查询树形品类
+     * @return
+     */
+    @GetMapping("/findTree")
+    @ResponseBody
+    public List <CategoryVO> findTrees(){
+        return categoryServiceApi.findTree().getBody();
     }
 
 }

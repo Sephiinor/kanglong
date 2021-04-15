@@ -2,7 +2,6 @@ package com.sephinor.kanglong.controller;
 
 
 import com.sephinor.common.entity.SpecGroup;
-import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
 import com.sephinor.common.vo.SpecParamVO;
@@ -67,7 +66,7 @@ public class SpecControllerProxy {
 
 
     /**
-     *  按照品类id查询规格参数
+     *  按照品类id查询规格组参数
      * @return
      */
     @GetMapping("/findByCid")

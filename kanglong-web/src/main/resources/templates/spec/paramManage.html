@@ -253,38 +253,48 @@
 <div th:include="~{tpl :: js}"></div>
 <script type="application/javascript">
     //包含二级和三级的所有品类
-    var allCategories = {}
+    var allCategories ;
+    //所有品类对应的规格组
+    var allSpecGroups = {}
 
     $(function () {
         //修改选择框的宽度
-        $("#myModal .chosen-container").css("width" , "100%")
+        $("#myModal .chosen-container").css("width" , "100%");
 
-        //绑定一级分类下拉列表
-        $("#sel_c1,#sel_c2").change(function () {
-            //得到id
-            var control = $(this).attr("id") ;
-            var pid = $(this).val()
-            if (allCategories[pid] == null) {
+        //初始化品类列表
+        $.ajaxSettings.async = false
+        $.get("/category/findTree" , function (data) {
+            allCategories= data ;
+            var sel_cid =$("#cid")
+            sel_cid.empty();
+            for(var i = 0 ; i < allCategories.length ; i ++){
+
+                sel_cid.append("<option value='"+ allCategories[i].id+"'>"+ allCategories[i].fullname+"</option>")
+            }
+            sel_cid.trigger("chosen:updated") ;
+            $.ajaxSettings.async = true
+        })
+
+        //绑定品类列表下拉列表选择改变事件
+        $("#cid").change(function () {
+            //提取cid的值
+            var cid = $(this).val()
+            if (allSpecGroups[cid] == null) {
                 $.ajaxSettings.async = false
-                $.get("/category/findSubList?pid=" + pid , function (data) {
-                    allCategories[pid] = data ;
+                $.get("/spec/findByCid?cid=" + cid , function (data) {
+                    allSpecGroups[cid] = data ;
                 })
             }
 
             //下级控件
-            var nextSel;
-            if (control == 'sel_c1') {
-                nextSel = $("#sel_c2")
-            }
-            else {
-                nextSel = $("#sel_c3")
-            }
+            var sel_groupId=$("#groupId");
             //清空
-            nextSel.empty() ;
-            for(var i = 0 ; i < allCategories[pid].length ; i ++){
-                nextSel.append("<option value='"+ allCategories[pid][i].id+"'>"+ allCategories[pid][i].name+"</option>")
+            sel_groupId.empty()
+
+            for(var i = 0 ; i < allSpecGroups[cid].length ; i ++){
+                sel_groupId.append("<option value='"+ allSpecGroups[cid][i].id+"'>"+ allSpecGroups[cid][i].name+"</option>")
             }
-            nextSel.trigger("chosen:updated") ;
+            sel_groupId.trigger("chosen:updated") ;
             $.ajaxSettings.async = true
         })
 
