@@ -79,13 +79,13 @@
                                 <tbody>
                                 <tr th:each="e : ${params} ">
                                     <td th:text="${e.id}"></td>
-                                    <td class="center" th:text="${e.cname}"></td>
+                                    <td class="center" th:text="${e.cname}" th:data="${e.cid}"></td>
                                     <td class="center" th:text="${e.groupName}"></td>
                                     <td class="center" th:text="${e.name}"></td>
                                     <td class="center" th:text="${e.unit}"></td>
-                                    <td class="center" th:text="${e.numeric}?'是':'否'"></td>
-                                    <td class="center" th:text="${e.generic}?'是':'否'"></td>
-                                    <td class="center" th:text="${e.searching}?'是':'否'"></td>
+                                    <td class="center" th:text="${e.numeric}? '是' : '否'"></td>
+                                    <td class="center" th:text="${e.generic}? '是' : '否'"></td>
+                                    <td class="center" th:text="${e.searching}? '是' : '否'"></td>
                                     <td class="center" th:text="${e.segments}"></td>
                                     <td class="center">
                                         <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editSpecGroup(this)">
@@ -173,17 +173,21 @@
                             </label>
                         </div>
                         <div class="form-group">
+                            <label for="segments">候选值</label>
+                            <input type="text" class="form-control" id="segments" name="segments" placeholder="候选值">
+                        </div>
+                        <div class="form-group">
                             <label for="cid">所属品类</label>
-                            <div class = "controls" >
-                                <select id = "cid" data-rel="chosen" name="cid">
+                            <div class="controls">
+                                <select id="cid" data-rel="chosen" name="cid">
                                     <option value="0" selected>请选择品类</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="groupId">所属规格组</label>
-                            <div class = "controls" >
-                                <select id = "groupId" data-rel="chosen" name="groupId">
+                            <div class="controls">
+                                <select id="groupId" data-rel="chosen" name="groupId">
                                     <option value="0" selected>请选择品类</option>
                                 </select>
                             </div>
@@ -248,12 +252,13 @@
 <script type="application/javascript">
     //包含二级和三级的所有品类
     var allCategories ;
+
     //所有品类对应的规格组
-    var allSpecGroups = {}
+    var allSpecGroups = {};
 
     $(function () {
         //修改选择框的宽度
-        $("#myModal .chosen-container").css("width" , "100%");
+        $("#myModal .chosen-container").css("width" , "100%")
 
         //初始化品类列表
         $.ajaxSettings.async = false
@@ -283,17 +288,14 @@
             }
 
             //下级控件
-            var sel_groupId=$("#groupId");
+            var sel_groupId = $("#groupId");
             //清空
-            sel_groupId.empty()
-
+            sel_groupId.empty() ;
             for(var i = 0 ; i < allSpecGroups[cid].length ; i ++){
                 sel_groupId.append("<option value='"+ allSpecGroups[cid][i].id+"'>"+ allSpecGroups[cid][i].name+"</option>")
             }
-            sel_groupId.trigger("chosen:updated") ;
-            $.ajaxSettings.async = true
-        })
-
+            sel_groupId.trigger("chosen:updated")
+        }) ;
 
         //一级分类表头收起或展开
         $("#th_c1 a").click(function () {
@@ -330,6 +332,10 @@
         //工具栏新增规格参数
         $("#a_btn_add_specGroup").click(function () {
             $("#myModal form")[0].reset()
+            //让当前的品类选中
+            var cid = $("#tbl_specparam tbody tr td:nth-child(2)").attr("data")
+            $("#myModal form #cid").val(cid)
+            $("#myModal form #cid").trigger("chosen:updated").change();
             $("#myModal").modal("show")
         })
 
@@ -359,7 +365,7 @@
         }, 1000)
     }
 
-    //删除品类
+    //删除规格组
     function deleteSpecGroup(a){
         //提取品类id
         var gid = $(a).attr("data")
@@ -380,9 +386,9 @@
     function viewCategory(a){
     }
 
-    //修改规格参数
+    //修改规格组
     function editSpecGroup(a){
-        //提取规格参数id
+        //提取规格组id
         var gid = $(a).attr("data")
         $.get("/spec/findByGid?gid=" + gid ,function (r) {
             $("#myModal form #id").val(r.id)
@@ -452,11 +458,11 @@
 
     //增加子品类
     function addSubCategory(a){
-        var pid = $(a).attr("data");
-        $("#myModal form")[0].reset();
-        $("#myModal form #sel_parent_id").val(pid);
-        $("#myModal form #sel_parent_id").trigger("chosen:updated");
-        $("#myModal").modal("show");
+        var pid = $(a).attr("data") ;
+        $("#myModal form")[0].reset()
+        $("#myModal form #sel_parent_id").val(pid)
+        $("#myModal form #sel_parent_id").trigger("chosen:updated")
+        $("#myModal").modal("show")
     }
 
 </script>
