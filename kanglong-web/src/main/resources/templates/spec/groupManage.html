@@ -303,7 +303,7 @@
         //绑定保存按钮
         $("#myModal #a_btn_save_specGroup").click(function () {
             var formdata = $("#myModal form").serialize()
-            $.post("/spec/saveOrUpdate" , formdata , function () {
+            $.post("/spec/saveOrUpdateGroup" , formdata , function () {
                 toast_success("规格组保存成功!!!")
             }).error(function (r) {
                 toast_failure(r.responseText)

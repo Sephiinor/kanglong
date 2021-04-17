@@ -2,6 +2,7 @@ package com.sephinor.kanglong.controller;
 
 
 import com.sephinor.common.entity.SpecGroup;
+import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
 import com.sephinor.common.vo.SpecParamVO;
@@ -81,7 +82,7 @@ public class SpecControllerProxy {
      *  查询所有规格组,按照品类排序
      * @return
      */
-    @PostMapping("/saveOrUpdate")
+    @PostMapping("/saveOrUpdateGroup")
     @ResponseBody
     public  void  saveOrUpdateGroup( SpecGroup group ){
         logger.info("【SpecControllerProxy.saveOrUpdateGroup】的入参为: group:{} ",group.toString());
@@ -95,8 +96,8 @@ public class SpecControllerProxy {
      */
     @GetMapping("/findByGid")
     @ResponseBody
-    public SpecGroup findById(@RequestParam("gid") Long  gid){
-        logger.info("【SpecControllerProxy.findById】的入参为: gid:{} ",gid);
+    public SpecGroup findByGid(@RequestParam("gid") Long  gid){
+        logger.info("【SpecControllerProxy.findByGid】的入参为: gid:{} ",gid);
         return specGroupService.findById(gid);
 
     }
@@ -108,6 +109,19 @@ public class SpecControllerProxy {
 
         specGroupService.deleteById(gid);
     }
-    
-    
+
+
+
+    /**
+     *  新增或删除规格参数
+     * @return
+     */
+    @PostMapping("/saveOrUpdateParam")
+    @ResponseBody
+    public  void  saveOrUpdateParam(SpecParam param){
+        logger.info("【SpecControllerProxy.saveOrUpdateParam】的入参为: param:{} ",param.toString());
+        specParamService.saveOrUpdateParam(param);
+    }
+
+
 }

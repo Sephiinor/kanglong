@@ -55,23 +55,23 @@
                         <div class="box-content">
                             <div class="alert alert-info">
                                 <div class="control-group">
-                                    <a id = "a_btn_add_specGroup" class="btn btn-info" href="#">
+                                    <a id="a_btn_add_specParam" class="btn btn-info" href="#">
                                         <i class="glyphicon glyphicon-plus-sign icon-white"></i>
                                         新增规格参数
                                     </a>
                                 </div>
                             </div>
-                            <table id="tbl_specparam" class="table table-striped table-bordered responsive">
+                            <table id="tbl_specParam" class="table table-striped table-bordered responsive">
                                 <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>所属品类</th>
                                     <th>所属规格组</th>
                                     <th>参数名称</th>
-                                    <th>是否数值</th>
                                     <th>计量单位</th>
-                                    <th>是否常规项</th>
-                                    <th>是否可搜索</th>
+                                    <th>是否数值</th>
+                                    <th>常规项</th>
+                                    <th>可搜索</th>
                                     <th>候选值</th>
                                     <th></th>
                                 </tr>
@@ -88,11 +88,11 @@
                                     <td class="center" th:text="${e.searching}? '是' : '否'"></td>
                                     <td class="center" th:text="${e.segments}"></td>
                                     <td class="center">
-                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editSpecGroup(this)">
+                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editSpecParam(this)">
                                             <i class="glyphicon glyphicon-edit icon-white"></i>
                                             修改
                                         </a>
-                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteSpecGroup(this)">
+                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteSpecParam(this)">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             删除
                                         </a>
@@ -197,7 +197,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">关闭</a>
-                    <a id="a_btn_save_specGroup" href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
+                    <a id="a_btn_save_specParam" href="#" class="btn btn-primary" data-dismiss="modal">保存</a>
                 </div>
             </div>
         </div>
@@ -329,21 +329,21 @@
             }
         }) ;
 
-        //工具栏新增规格参数
-        $("#a_btn_add_specGroup").click(function () {
+        //添加规格参数
+        $("#a_btn_add_specParam").click(function () {
             $("#myModal form")[0].reset()
             //让当前的品类选中
-            var cid = $("#tbl_specparam tbody tr td:nth-child(2)").attr("data")
+            var cid = $("#tbl_specParam tbody tr td:nth-child(2)").attr("data")
             $("#myModal form #cid").val(cid)
             $("#myModal form #cid").trigger("chosen:updated").change();
             $("#myModal").modal("show")
         })
 
-        //绑定保存按钮
-        $("#myModal #a_btn_save_specGroup").click(function () {
-            var formdata = $("#myModal form").serialize()
-            $.post("/spec/saveOrUpdate" , formdata , function () {
-                toast_success("规格参数保存成功!!!")
+        //保存规格参数按钮
+        $("#myModal #a_btn_save_specParam").click(function () {
+            var formdata = $("#myModal form").serializeArray()
+            $.post("/spec/saveOrUpdateParam" , formdata , function () {
+                toast_success("规则参数保存成功!!!")
             }).error(function (r) {
                 toast_failure(r.responseText)
             });
@@ -366,7 +366,7 @@
     }
 
     //删除规格组
-    function deleteSpecGroup(a){
+    function deleteSpecParam(a){
         //提取品类id
         var gid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
@@ -387,7 +387,7 @@
     }
 
     //修改规格组
-    function editSpecGroup(a){
+    function editSpecParam(a){
         //提取规格组id
         var gid = $(a).attr("data")
         $.get("/spec/findByGid?gid=" + gid ,function (r) {

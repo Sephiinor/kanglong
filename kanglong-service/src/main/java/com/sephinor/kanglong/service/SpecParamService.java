@@ -1,10 +1,12 @@
 package com.sephinor.kanglong.service;
 
+import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.SpecParamVO;
 import com.sephinor.kanglong.mapper.SpecParamMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -22,5 +24,22 @@ public class SpecParamService {
 
 	public List<SpecParamVO> findByCid(Long cid){
 		return specParamMapper.findByCid(cid) ;
+	}
+
+
+	/**
+	 *  保存或更新规格参数
+	 * @param specParam
+	 */
+	@Transactional
+	public void saveOrUpdateParam(SpecParam specParam){
+
+		if(specParam.getId() == null){
+			logger.info("【SpecParamService.saveOrUpdateParam】执行新增操作,参数为{}",specParam);
+			specParamMapper.insert(specParam);
+		}else{
+			logger.info("【SpecParamService.saveOrUpdateParam】执行更新操作,参数为{}",specParam);
+			specParamMapper.updateByPrimaryKey(specParam);
+		}
 	}
 }
