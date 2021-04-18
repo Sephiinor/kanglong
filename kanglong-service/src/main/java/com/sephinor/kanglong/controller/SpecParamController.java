@@ -36,4 +36,9 @@ public class SpecParamController {
 		specParamService.saveOrUpdateParam(specParam);
 	}
 
+	@GetMapping("/findById")
+	public SpecParam findById(@RequestParam("id")Long id){
+		logger.info("【SpecParamController.findById】的入参为: id:{} ",id);
+		return specParamService.findById(id);
+	}
 }

@@ -274,7 +274,7 @@
         })
         $.ajaxSettings.async = true
 
-        //绑定品类列表下拉列表选择改变事件
+        //绑定品类列表下拉列表的选择改变事件
         $("#cid").change(function () {
             //提取cid的值
             var cid = $(this).val()
@@ -368,9 +368,9 @@
     //删除规格组
     function deleteSpecParam(a){
         //提取品类id
-        var gid = $(a).attr("data")
+        var pid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/spec/deleteGroupByGid?gid=" + gid , function () {
+            $.get("/spec/deleteParamByPid?pid=" + pid , function () {
                 toast_success("删除成功!")
             }).error(function (r) {
                 toast_failure(r.responseText)
@@ -378,7 +378,7 @@
         })
 
         $("#div_diag_confirm .modal-header").text("删除确认");
-        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+gid+"</b> 吗?");
+        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+pid+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
     }
 
@@ -386,15 +386,42 @@
     function viewCategory(a){
     }
 
-    //修改规格组
+    //修改规格参数
     function editSpecParam(a){
         //提取规格组id
-        var gid = $(a).attr("data")
-        $.get("/spec/findByGid?gid=" + gid ,function (r) {
+        var pid = $(a).attr("data")
+        $("#myModal form")[0].reset()
+        $.get("/spec/findParamByPid?pid=" + pid ,function (r) {
             $("#myModal form #id").val(r.id)
             $("#myModal form #name").val(r.name)
+            $("#myModal form #unit").val(r.unit)
+
+            if(r.generic){
+                $("#myModal form #generic").attr("checked" , "checked") ;
+            }
+            else{
+                $("#myModal form #generic").removeAttr("checked");
+            }
+            if(r.numeric){
+                $("#myModal form #numeric").attr("checked" , "checked") ;
+            }
+            else{
+                $("#myModal form #numeric").removeAttr("checked")
+            }
+            if(r.searching){
+                $("#myModal form #searching").attr("checked" , "checked") ;
+            }
+            else{
+                $("#myModal form #searching").removeAttr("checked")
+            }
+            $("#myModal form #segments").val(r.segments)
+
             $("#myModal form #cid").val(r.cid)
-            $("#myModal form #cid").trigger("chosen:updated")
+            $("#myModal form #cid").trigger("chosen:updated").change()
+
+            $("#myModal form #groupId").val(r.groupId)
+            $("#myModal form #groupId").trigger("chosen:updated")
+
             $("#myModal").modal("show")
         }).error(function (r) {
             toast_failure(r.responseText)

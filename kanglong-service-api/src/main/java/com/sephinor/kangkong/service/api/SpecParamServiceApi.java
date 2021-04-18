@@ -20,4 +20,8 @@ public interface SpecParamServiceApi {
 
     @PostMapping("/specParam/saveOrUpdate")
     void saveOrUpdateParam(@RequestBody SpecParam specParam);
+
+    @GetMapping("/specParam/findById")
+    SpecParam findById(@RequestParam("id") Long id) ;
+
 }

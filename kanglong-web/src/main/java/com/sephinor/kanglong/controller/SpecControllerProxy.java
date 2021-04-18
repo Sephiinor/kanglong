@@ -124,4 +124,17 @@ public class SpecControllerProxy {
     }
 
 
+    /**
+     *  按照规格组id查询规格参数
+     * @return
+     */
+    @GetMapping("/findParamByPid")
+    @ResponseBody
+    public SpecParam findByPid(@RequestParam("pid") Long  pid){
+
+        logger.info("【SpecControllerProxy.findByPid】的入参为: pid:{} ",pid);
+        
+        return specParamService.findById(pid);
+
+    }
 }

@@ -42,4 +42,13 @@ public class SpecParamService {
 			specParamMapper.updateByPrimaryKey(specParam);
 		}
 	}
+
+	/**
+	 *  根据主键ID查询规格参数
+	 * @param id
+	 * @return
+	 */
+	public  SpecParam findById(Long id){
+		return specParamMapper.selectByPrimaryKey(id);
+	}
 }
