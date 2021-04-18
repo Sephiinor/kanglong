@@ -41,4 +41,11 @@ public class SpecParamController {
 		logger.info("【SpecParamController.findById】的入参为: id:{} ",id);
 		return specParamService.findById(id);
 	}
+
+	@GetMapping("/deleteById")
+	public void deleteById(@RequestParam("id")Long id){
+		logger.info("【SpecParamController.deleteById】的入参为: id:{} ",id);
+		specParamService.deleteById(id);
+	}
+
 }

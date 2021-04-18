@@ -51,4 +51,13 @@ public class SpecParamService {
 	public  SpecParam findById(Long id){
 		return specParamMapper.selectByPrimaryKey(id);
 	}
+
+
+	/**
+	 *  根据主键删除规格参数
+	 * @param id
+	 */
+	public void deleteById(Long id){
+		specParamMapper.deleteByPrimaryKey(id);
+	}
 }

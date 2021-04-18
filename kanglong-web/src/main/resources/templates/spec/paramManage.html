@@ -344,6 +344,7 @@
             var formdata = $("#myModal form").serializeArray()
             $.post("/spec/saveOrUpdateParam" , formdata , function () {
                 toast_success("规则参数保存成功!!!")
+                location.reload();
             }).error(function (r) {
                 toast_failure(r.responseText)
             });
@@ -372,6 +373,7 @@
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
             $.get("/spec/deleteParamByPid?pid=" + pid , function () {
                 toast_success("删除成功!")
+                location.reload();
             }).error(function (r) {
                 toast_failure(r.responseText)
             });

@@ -137,4 +137,19 @@ public class SpecControllerProxy {
         return specParamService.findById(pid);
 
     }
+
+
+    /**
+     *  按照规格组id删除规格参数
+     * @return
+     */
+    @GetMapping("/deleteParamByPid")
+    @ResponseBody
+    public void deleteByPid(@RequestParam("pid") Long  pid){
+
+        logger.info("【SpecControllerProxy.deleteByPid】的入参为: pid:{} ",pid);
+
+        specParamService.deleteParamByPid(pid);
+
+    }
 }

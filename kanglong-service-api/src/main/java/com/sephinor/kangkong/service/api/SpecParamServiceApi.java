@@ -24,4 +24,7 @@ public interface SpecParamServiceApi {
     @GetMapping("/specParam/findById")
     SpecParam findById(@RequestParam("id") Long id) ;
 
+
+    @GetMapping("/specParam/deleteById")
+    void deleteParamByPid(@RequestParam("id") Long id) ;
 }
