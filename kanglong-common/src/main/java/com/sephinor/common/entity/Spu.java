@@ -2,8 +2,11 @@ package com.sephinor.common.entity;
 
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import java.util.List;
 
 /**
  * standard product unit,标准产品单位
@@ -11,7 +14,11 @@ import java.util.List;
  * 化信息的集合，该集合描述了一个产品的特性。通俗点讲，属性值、特性相同的商品就可以称为一个SPU。
  */
 @Data
+@Table(name="t_spu")
 public class Spu {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;            //
     private Long brandId ;      //属于的品牌id
     private Long cid1;          //1级类目id
