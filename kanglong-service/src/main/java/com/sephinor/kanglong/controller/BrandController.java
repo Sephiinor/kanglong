@@ -70,6 +70,7 @@ public class BrandController {
 
 	@GetMapping("/findByCid")
 	public ResponseEntity<List<Brand>> findByCid(@RequestParam("cid") Long cid){
+		logger.info("【BrandController.findByCid】的入参为: cid:{} ",cid);
 		return ResponseEntity.ok(brandService.findByCid(cid));
 	}
 

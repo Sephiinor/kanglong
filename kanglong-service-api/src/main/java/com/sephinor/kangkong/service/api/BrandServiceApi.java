@@ -34,7 +34,7 @@ public interface BrandServiceApi {
     /**
      * 按照品类查询品牌
      */
-    @GetMapping("/findByCid")
+    @GetMapping("/brand/findByCid")
      ResponseEntity<List<Brand>> findByCid(@RequestParam("cid") Long cid) ;
 
     /**

@@ -160,4 +160,12 @@ public class BrandControllerProxy {
         return brandService.findAll();
     }
 
+    //按照品类查询品牌
+    @GetMapping("/findByCid")
+    @ResponseBody
+    public List<Brand> findByCid(@RequestParam("cid") Long cid){
+        logger.info("【BrandControllerProxy.findByCid】的入参为: cid:{} ",cid);
+        return brandService.findByCid(cid).getBody() ;
+    }
+
 }

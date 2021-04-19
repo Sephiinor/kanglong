@@ -135,9 +135,11 @@ public class BrandService {
 	 * @return
 	 */
 	public List<Brand> findByCid(Long cid){
+
 		List<Brand> list = brandMapper.findByCid(cid);
+		logger.info("【BrandService.findByCid】的入参为: cid:{},出参为 {} ",cid,list);
 		if(CollectionUtils.isEmpty(list)){
-		throw new KangLongException(ExceptionMessage.BRAND_NOT_FOUND);
+			throw new KangLongException(ExceptionMessage.BRAND_NOT_FOUND);
 		}
 		return  list;
 	}
