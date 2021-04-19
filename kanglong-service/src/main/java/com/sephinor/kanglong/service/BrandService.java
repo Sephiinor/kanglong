@@ -172,7 +172,15 @@ public class BrandService {
 		}
 		//删除数据库数据
 		brandMapper.deleteByPrimaryKey(id) ;
+		logger.info("");
 	}
 
 
+	/**
+	 *  查询所有品牌
+	 * @return
+	 */
+	public List<Brand> findAll(){
+		return  brandMapper.selectAll();
+	}
 }

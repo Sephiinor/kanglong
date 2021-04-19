@@ -52,4 +52,11 @@ public interface BrandServiceApi {
     //删除品牌
     @GetMapping("/brand/deletebyid")
     void deleteById(@RequestParam("id") Long id) ;
+
+
+    /**
+     *  查找所有品牌
+     */
+    @GetMapping("/brand/findALl")
+    List<Brand> findAll() ;
 }

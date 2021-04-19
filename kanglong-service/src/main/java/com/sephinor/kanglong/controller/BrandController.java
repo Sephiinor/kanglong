@@ -95,4 +95,12 @@ public class BrandController {
 
 
 
+	//根据平台Id集合品牌查询
+	@GetMapping("/findAll")
+	public List <Brand> findALl(){
+
+		return brandService.findAll();
+
+	}
+
 }

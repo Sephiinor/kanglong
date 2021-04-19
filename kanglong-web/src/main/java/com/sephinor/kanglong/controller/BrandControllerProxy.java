@@ -2,7 +2,6 @@ package com.sephinor.kanglong.controller;
 
 
 import com.sephinor.common.entity.Brand;
-import com.sephinor.common.entity.Category;
 import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.PageResult;
 import com.sephinor.kangkong.service.api.BrandServiceApi;
@@ -150,6 +149,15 @@ public class BrandControllerProxy {
     public Brand findById(@RequestParam("id") Long id){
 
         return brandService.findById(id) ;
+    }
+
+
+
+    @GetMapping("/findAll")
+    @ResponseBody
+    public List<Brand> findAll (){
+
+        return brandService.findAll();
     }
 
 }
