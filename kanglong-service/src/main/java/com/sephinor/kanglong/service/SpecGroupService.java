@@ -96,4 +96,28 @@ public class SpecGroupService {
 
 	}
 
+	/**
+	 * 按照品类id查询规格组和参数
+	 */
+	public List<SpecGroup> findGroupAndParamsByCid(Long cid){
+		logger.info("【SpecGroupService.findGroupAndParamsByCid】的入参为: cid:{} ",cid);
+		List<SpecGroup> list = specGroupMapper.findGroupAndParams(cid);
+		logger.info("【SpecGroupService.findGroupAndParamsByCid】的入参为: cid:{},出参为{} ",cid,list);
+		return list;
+	}
+
+
+	/**
+	 *  按照规格组id查询规格参数
+	 * @param gid
+	 * @return
+	 */
+	public  List<SpecParam> findParamByGid(Long gid){
+		logger.info("【SpecGroupService.findParamByGid】的入参为: gid:{} ",gid);
+		List<SpecParam>  list=specGroupMapper.findParamsByGid(gid);
+		logger.info("【SpecGroupService.findParamByGid】的入参为: gid:{},出参为{} ",gid,list);
+
+		return list;
+	}
+
 }

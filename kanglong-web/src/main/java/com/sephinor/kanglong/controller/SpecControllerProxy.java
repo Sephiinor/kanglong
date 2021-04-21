@@ -152,4 +152,13 @@ public class SpecControllerProxy {
         specParamService.deleteParamByPid(pid);
 
     }
+
+    @GetMapping("/findGroupAndParamsByCid")
+    @ResponseBody
+    public List<SpecGroup> findGroupAndParamsByCid(@RequestParam("cid") Long cid){
+        return specGroupService.findGroupAndParamsByCid(cid) ;
+    }
+
+
+
 }

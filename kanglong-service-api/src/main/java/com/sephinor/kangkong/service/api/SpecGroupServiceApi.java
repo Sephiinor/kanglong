@@ -1,12 +1,9 @@
 package com.sephinor.kangkong.service.api;
 
 
-import com.sephinor.common.entity.Category;
 import com.sephinor.common.entity.SpecGroup;
-import com.sephinor.common.vo.CategoryVO;
 import com.sephinor.common.vo.SpecGroupVO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,4 +43,11 @@ public interface SpecGroupServiceApi {
      */
     @GetMapping("/specGroup/deletebyId")
     void deleteById(@RequestParam("id") Long id) ;
+
+
+
+
+    //按照品类id查询规格组和参数
+    @GetMapping("/specGroup/findGroupAndParamsByCid")
+    List<SpecGroup> findGroupAndParamsByCid(@RequestParam("cid") Long cid) ;
 }

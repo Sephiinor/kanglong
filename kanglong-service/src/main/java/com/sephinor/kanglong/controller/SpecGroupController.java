@@ -1,16 +1,13 @@
 package com.sephinor.kanglong.controller;
 
 
-import com.sephinor.common.entity.Category;
 import com.sephinor.common.entity.SpecGroup;
-import com.sephinor.common.vo.CategoryVO;
+import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.SpecGroupVO;
-import com.sephinor.kanglong.service.CategoryService;
 import com.sephinor.kanglong.service.SpecGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,5 +76,23 @@ public class SpecGroupController {
 		//按照id删除规格组
 		specGroupService.deleteById(id) ;
 	}
+
+	//按照id删除规格组
+	@GetMapping("/findGroupAndParamsByCid")
+	public List<SpecGroup> findGroupAndParamsByCid(@RequestParam("cid") Long cid){
+		return specGroupService.findGroupAndParamsByCid(cid) ;
+	}
+
+	/**
+	 *  按照规格组id查询规格参数
+	 * @param gid
+	 * @return
+	 */
+	@GetMapping("/findParamsByGid")
+	public List<SpecParam> findParamsByGid(@RequestParam("gid") Long gid){
+		return specGroupService.findParamByGid(gid);
+	}
+
+
 
 }

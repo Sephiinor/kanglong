@@ -1,9 +1,9 @@
 package com.sephinor.kanglong.mapper;
 
 import com.sephinor.common.entity.SpecGroup;
+import com.sephinor.common.entity.SpecParam;
 import com.sephinor.common.vo.SpecGroupVO;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import tk.mybatis.mapper.additional.idlist.IdListMapper;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -39,4 +39,21 @@ public interface SpecGroupMapper extends Mapper<SpecGroup> , IdListMapper<SpecGr
     @Select("select * from t_spec_group where id= #{id}")
     SpecGroup findById(@Param("id") Long id);
 
+
+
+    //按照品类id查询规格组以及参数
+    @Select("select * from t_spec_group where cid = #{cid}")
+    @Results({
+            @Result(property = "id" , column = "id") ,
+            @Result(property = "cid" , column = "cid") ,
+            @Result(property = "name" , column = "name") ,
+            @Result(property = "params" , column = "id" ,
+                    many = @Many(select = "com.sephinor.kanglong.mapper.SpecGroupMapper.findParamsByGid"))
+
+    })
+    List<SpecGroup> findGroupAndParams(@Param("cid") Long cid) ;
+
+    //按照规格组id查询规格参数
+    @Select("select * from t_spec_param where group_id = #{gid}")
+    List<SpecParam> findParamsByGid(@Param("gid") Long gid);
 }

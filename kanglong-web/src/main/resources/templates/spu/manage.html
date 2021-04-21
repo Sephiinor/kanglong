@@ -296,11 +296,15 @@
 <script type="application/javascript">
     //所有品牌
     var allBrands = {} ;
+    //所有规格组
+    var allSpecGroups={}
+
+
     $(function () {
         //选择框宽度设置
         $("#myModal .chosen-container").css("width", "100%")
 
-        //绑定品类下拉框的选择改变事件，触发品牌列表框二级联动
+        //绑定品类下拉框的选择改变事件，触发品牌列表框二级联动 , 同时改变第三向导页的内容
         $("#myModal form #cid3").change(function () {
             //清除品牌下拉列表
             $("#myModal form #brandId").empty();
@@ -313,11 +317,36 @@
                 })
                 $.ajaxSettings.async = true
             }
-            
+            //组装品牌的下拉框
             for(var i = 0 ; i < allBrands[cid].length ; i ++){
                 $("#myModal form #brandId").append("<option value='"+ allBrands[cid][i].id+"'>"+ allBrands[cid][i].name+"</option>")
             }
             $("#myModal form #brandId").trigger("chosen:updated")
+
+
+            //组装第三向导页的内容
+            //清除品牌下拉列表
+            $("#wizard div.well #step3").empty();
+            if(allSpecGroups[cid] == null){
+                $.ajaxSettings.async = false
+                $.get("/spec/findGroupAndParamsByCid?cid=" + cid, function (data) {
+                    allBrands[cid] = data;
+                })
+                $.ajaxSettings.async = true
+            }
+            var html = ""
+            for(var i = 0 ; i < allSpecGroups[cid].length ; i ++){
+                html = html + '<label style="margin-left: -12px">'+allSpecGroups[cid][i].name+'</label>' ;
+                for(var j = 0 ; j < allSpecGroups[cid][i].params.length ; j ++){
+                    html = html + '<div class="form-group" style="margin: 3px"><label for="description" style="width:140px">' +allSpecGroups[cid][i].params[j].name
+                        + '</label><input type="text" class="form-control" style="display: inline ;width: 85%" id="afterService" name="afterService"></div>' ;
+                }
+                if (i != allSpecGroups[cid].length - 1) {
+                    html = html + '<hr style="height: 3px;background-color: deepskyblue;margin: auto -12px">';
+                }
+            }
+            $("#wizard div.well #step3").append(html) ;
+
         }) ;
 
         //新增品牌按钮点击事件
