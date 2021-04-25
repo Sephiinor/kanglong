@@ -9,6 +9,26 @@
     <link th:href="@{/wizard/bootstrap/css/bootstrap-responsive.min.css}" rel="stylesheet"/>
     <link th:href="@{/wizard/css/bwizard.min.css}" rel="stylesheet"/>
     <script src="https://cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>
+    <style type="text/css">
+        #wizard div.well #step4 table{
+            background-color: white;
+            border: 0px solid aliceblue;
+        }
+        #wizard div.well #step4 table tr{
+            height: 65px;
+            background-color: white;
+            border-width: 0px 0px 1px 0px;
+        }
+        #wizard div.well #step4 table tr td{
+            background-color: white;
+            border:1px solid #428bca ;
+            border-width: 0px 0px 1px 0px;
+        }
+
+        #wizard div.well #step4 table tr:first-child td {
+            border-top-width: 1px;
+        }
+    </style>
 </head>
 <!-- 引入样式模板 -->
 <head th:include="~{tpl :: css}"></head>
@@ -211,25 +231,7 @@
                                 </div>
                             </div>
                             <div>
-                                <label style="margin-left: -12px">基本信息</label>
-                                <div class="form-group">
-                                    <label for="description">机身重量</label>
-                                    <textarea class="form-control" id="4" name="4" placeholder="机身重量"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">材质工艺</label>
-                                    <textarea class="form-control" id="5" name="5" placeholder="机身重量"></textarea>
-                                </div>
-                                <hr style="height: 3px;background-color: lightgrey;margin: auto -12px">
-                                <label style="margin-left: -15px">基本信息</label>
-                                <div class="form-group">
-                                    <label for="description">机身重量</label>
-                                    <textarea class="form-control" id="4" name="4" placeholder="机身重量"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">材质工艺</label>
-                                    <textarea class="form-control" id="5" name="5" placeholder="机身重量"></textarea>
-                                </div>
+                                c
                             </div>
                             <div>
                                 d
@@ -296,8 +298,10 @@
 <script type="application/javascript">
     //所有品牌
     var allBrands = {} ;
-    //所有规格组
-    var allSpecGroups = {}
+    //品类与规格组集合映射
+    var cid_groupsMap = {}
+    //参数id与参数映射
+    var pid_paramMap = {}
     $(function () {
         //选择框宽度设置
         $("#myModal .chosen-container").css("width", "100%")
@@ -323,25 +327,65 @@
 
             //组装第三向导页的内容
             $("#wizard div.well #step3").empty()
-            if(allSpecGroups[cid] == null){
+            if(cid_groupsMap[cid] == null){
                 $.ajaxSettings.async = false
                 $.get("/spec/findGroupAndParamsByCid?cid=" + cid, function (data) {
-                    allSpecGroups[cid] = data;
+                    cid_groupsMap[cid] = data;
                 })
                 $.ajaxSettings.async = true
             }
-            var html = "" ;
-            for(var i = 0 ; i < allSpecGroups[cid].length ; i ++){
-                html = html + '<label style="margin-left: -12px">'+allSpecGroups[cid][i].name+'</label>' ;
-                for(var j = 0 ; j < allSpecGroups[cid][i].params.length ; j ++){
-                    html = html + '<div class="form-group" style="margin: 3px"><label for="description" style="width:140px">'+allSpecGroups[cid][i].params[j].name+'</label><input type="text" class="form-control" style="display: inline ;width: 85%" id="afterService" name="afterService"></div>' ;
+            var html = '<form id="form_3">' ;
+            for(var i = 0 ; i < cid_groupsMap[cid].length ; i ++){
+                //第i组
+                var g = cid_groupsMap[cid][i] ;
+                html = html + '<label style="margin-left: -12px">'+g.name+'</label>' ;
+                for(var j = 0 ; j < g.params.length ; j ++){
+                    var p = g.params[j]
+                    //添加到id和参数对应映射中
+                    pid_paramMap[p.id] = p
+                    html = html + '<div class="form-group" style="margin: 3px">' ;
+                    //是否是常规参数
+                    var generic = p.generic
+                    if(generic){
+                        html = html + '<label style="width:140px">' + p.name + '</label>';
+                    }
+                    else{
+                        html = html + '<label style="width:140px;color:red">' + p.name + '</label>';
+                    }
+
+                    //处理规格参数值
+                    //候选值
+                    if(p.segments != null && p.segments != ''){
+                        var segs = p.segments.split(",")
+                        for(var k = 0 ; k  < segs.length ; k ++){
+                            html = html + '<label><input type="checkbox" name="'+p.id+'" value="'+segs[k]+'" generic="'+generic+'">' + segs[k] + '</label>&nbsp;&nbsp;&nbsp;&nbsp;' ;
+                        }
+                    }
+                    //输入值
+                    else{
+                        html = html + '<input type="text" name="' + p.id + '" generic="'+generic+'" class="form-control" style="display: inline ;width: 85%">' ;
+                    }
+                    html = html + '</div>' ;
                 }
-                if (i != allSpecGroups[cid].length - 1) {
-                    html = html + '<hr style="height: 3px;background-color: deepskyblue;margin: auto -12px">';
+                //分割线
+                if (i != cid_groupsMap[cid].length - 1) {
+                    html = html + '<hr style="height: 1px;background-color: #949494;margin: auto -16px">';
                 }
             }
+            html = html + '</form>'
             $("#wizard div.well #step3").append(html) ;
+        }) ;
 
+        //sku选项卡点击事件
+        $("#wizard ol li:last-child").click(function () {
+            renderSkuTab();
+        }) ;
+        //导航按钮点击事件
+        $("#wizard ul li:last-child").click(function () {
+            var hide = $("#step3").attr("aria-hidden")
+            if (hide == "false") {
+                renderSkuTab();
+            }
         }) ;
 
         //新增品牌按钮点击事件
@@ -376,7 +420,80 @@
 
         //修改多选列表样式，否则出不来效果
         $("div.chosen-container-multi").css("width" , "100%")
-    })
+    }) ;
+
+    //渲染sku选项卡页面
+    function renderSkuTab(){
+        //存放sku对应的特殊规格的pid和值.
+        var sp = {}
+        //找出所有的特殊规格参数
+        $("#form_3 input[generic=false]").each(function(){
+            //空间类型
+            var type = $(this).attr("type")
+            //规格参数的id
+            var pid = $(this).attr("name")
+            //存放控件的值
+            var v = null ;
+            //复选框
+            if(type =='checkbox'){
+                //属性不在sp中
+                if(!(pid in sp)){
+                    sp[pid] = []
+                }
+                if($(this)[0].checked){
+                    sp[pid].push($(this).val()) ;
+                }
+            }
+            else{
+                v = $(this).val()
+                //放入sp集合中
+                sp[pid] = v.split(",")
+            }
+        }) ;
+
+        //生成笛卡尔积
+        var arr = []
+        var keys = Object.keys(sp) ;
+        for(var i = 0 ; i < keys.length ; i ++){
+            //临时数组，引用原来的集合
+            var arr_temp = arr ;
+            arr = []
+            //规格参数id
+            var pid = keys[i] ;
+            var pvalues = sp[keys[i]] ;
+            //第一次迭代
+            if(arr_temp == null || arr_temp.length == 0){
+                for(var j = 0  ;  j < pvalues.length ; j ++){
+                    var tmp = {}
+                    tmp[pid] = pvalues[j] ;
+                    arr.push(tmp) ;
+                }
+            }
+            //不是第一次
+            else{
+                for(var j = 0 ; j < arr_temp.length ; j ++){
+                    var oldObj  = arr_temp[j] ;
+                    for (var k = 0; k < pvalues.length; k++) {
+                        var tmp = copyObj(oldObj) ;
+                        tmp[pid] = pvalues[k];
+                        arr.push(tmp);
+                    }
+                }
+            }
+        }
+        console.log("ok")
+    }
+
+    //复制对象
+    function copyObj(a){
+        var copy = {}
+        var keys = Object.keys(a) ;
+        for(var i = 0 ; i < keys.length ; i ++){
+            copy[keys[i]] = a[keys[i]]
+        }
+        return copy ;
+    }
+
 
     //上传文件函数
     function uploadFiles() {
