@@ -11,6 +11,7 @@
     <script src="https://cdn.ckeditor.com/4.11.2/standard/ckeditor.js"></script>
     <style type="text/css">
         #wizard div.well #step4 table{
+            width:100%;
             background-color: white;
             border: 0px solid aliceblue;
         }
@@ -300,7 +301,7 @@
     var allBrands = {} ;
     //品类与规格组集合映射
     var cid_groupsMap = {}
-    //参数id与参数映射
+    //规格参数id到规格参数对象的映射
     var pid_paramMap = {}
     $(function () {
         //选择框宽度设置
@@ -453,6 +454,7 @@
 
         //生成笛卡尔积
         var arr = []
+        //sku对应的特殊规格参数id集合
         var keys = Object.keys(sp) ;
         for(var i = 0 ; i < keys.length ; i ++){
             //临时数组，引用原来的集合
@@ -481,7 +483,31 @@
                 }
             }
         }
-        console.log("ok")
+        //渲染sku表格
+        var html = "<table>"
+        //表头
+        html = html + "<tr>"
+        for(var i = 0 ; i < keys.length ;  i ++ ){
+            html = html + "<td>"+pid_paramMap[keys[i]].name+"</td>"
+        }
+        html = html + "<td>价格</td>"
+        html = html + "<td>库存</td>"
+        html = html + "<td>是否启用</td>"
+        html = html + "</tr>"
+        //表格内容
+        for(var i = 0 ; i < arr.length ; i ++){
+            html = html + "<tr>" ;
+            for(var j = 0 ; j < keys.length ; j ++){
+                html = html + "<td>"+arr[i][keys[j]]+pid_paramMap[keys[j]].unit + "</td>";
+            }
+            html = html + "<td><input type='text'></td>"
+            html = html + "<td><input type='text'></td>"
+            html = html + "<td><input type='checkbox'></td>"
+            html = html + "</tr>" ;
+        }
+        html = html + "</table>"
+        $("#wizard div.well #step4").empty();
+        $("#wizard div.well #step4").append(html);
     }
 
     //复制对象
