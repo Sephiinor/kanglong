@@ -35,6 +35,7 @@ public class SpuController {
 	@PostMapping("/saveOrUpdate")
 	public void saveOrUpdate(@RequestBody  Spu spu){
 		logger.info("【SpuController.saveOrUpdate】的入参为: spu:{} ",spu);
-		System.out.println(" ok ");
+		spuService.saveOrUpdate(spu);
+		logger.info("【SpuController.saveOrUpdate】操作成功  spu:{} ",spu);
 	}
 }

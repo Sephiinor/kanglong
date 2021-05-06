@@ -2,6 +2,10 @@ package com.sephinor.common.entity;
 
 import lombok.Data;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -11,7 +15,10 @@ import java.util.Date;
  * 称，每种产品均对应有唯一的SKU号。
  */
 @Data
+@Table(name = "t_sku")
 public class Sku {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //spuid
     private Long spuId;

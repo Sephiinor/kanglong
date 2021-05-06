@@ -107,11 +107,13 @@ public class CategoryService {
 	 */
 	public Category findById(Long id){
 
-		logger.info("根据{}查品类",id);
+		logger.info("【CategoryService.findById】的入参为: id:{} ",id);
 
 		Category category = categoryMapper.selectByPrimaryKey(id) ;
+
+		logger.info("【CategoryService.findById】根据{}查得品类为{}",id,category);
+
 		if(category == null){
-			logger.info("根据{}查无对应品类",id);
 			throw new KangLongException(ExceptionMessage.CATEGORY_NOT_FOUND_ERROR) ;
 		}
 		return category ;
