@@ -2,10 +2,7 @@ package com.sephinor.common.entity;
 
 import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -39,5 +36,6 @@ public class Sku {
     //最后修改时间
     private Date lastUpdateTime;
     //库存量
+    @Transient
     private Integer stock;
 }
