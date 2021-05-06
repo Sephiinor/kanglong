@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,7 @@ public class SpuControllerProxy {
         //取得所有spu
         Map<String , String[]> map =request.getParameterMap();
         String[] skus = request.getParameterValues("sku");
+        List<Sku> list = new ArrayList<Sku>();
         Sku sku = null ;
         Date date = new Date();
         for (String s: skus ) {
@@ -83,9 +85,14 @@ public class SpuControllerProxy {
             sku.setTitle(getString(map , s+".title"));
             sku.setOwnSpec(s);
             sku.setStock(getInteger(map,s+".stock"));
+            list.add(sku);
 
         }
-        System.out.println("sku ========"+sku);
+
+        //组装spu对象
+        spu.setSpuDetail(spuDetail);
+        spu.setSkus(list);
+        spuService.saveOrUpdate(spu);
 
     }
 

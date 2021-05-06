@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 /**
  * standard product unit,标准产品单位
@@ -30,4 +31,7 @@ public class Spu {
     private Boolean valid;      //是否有效，逻辑删除用
     private Date createTime;    //创建时间
     private Date lastUpdateTime;//最后修改时间
+
+    private SpuDetail spuDetail; //明细
+    private List<Sku> skus ;  // sku列表
 }
