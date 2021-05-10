@@ -28,5 +28,5 @@ public interface SpuServiceApi {
      * @param id
      */
     @GetMapping("/spu/deleteById")
-    void deleteById(@RequestParam("spuid") Long id);
+    void deleteById(@RequestParam("spuId") Long id);
 }

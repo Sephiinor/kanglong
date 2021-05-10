@@ -44,7 +44,7 @@ public class SpuController {
 	 * @param id
 	 */
 	@GetMapping("/deleteById")
-	public void deleteById(@RequestParam("spuid") Long id){
+	public void deleteById(@RequestParam("spuId") Long id){
 		logger.info("【SpuController.deleteById】的入参为: id:{} ",id);
 		spuService.deleteById(id);
 	}

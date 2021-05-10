@@ -620,16 +620,16 @@
     //删除商品
     function deleteSpu(a){
         //提取商品id
-        var spuid = $(a).attr("data")
+        var spuId = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/spu/deleteById?spuid=" + spuid , function () {
+            $.get("/spu/deleteById?spuId=" + spuId , function () {
                 toast_success("删除成功!")
             } ).error(function (r) {
                 toast_failure(r.responseText)
             })
         });
         $("#div_diag_confirm .modal-header").text("删除确认");
-        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+spuid+"</b> 吗?");
+        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+spuId+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
     }
 
