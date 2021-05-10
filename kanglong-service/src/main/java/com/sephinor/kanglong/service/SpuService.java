@@ -109,5 +109,27 @@ public class SpuService {
 
 	}
 
+	public Spu findById(Long id){
+		// 查询spu
+		Spu spu = spuMapper.selectByPrimaryKey(id);
+		logger.info("【SpuService.findById】查的spu:{} ",spu);
+
+		// 查询商品单位明细
+		SpuDetail detail = spuDetailMapper.selectByPrimaryKey(id);
+		logger.info("【SpuService.findById】查的spuDetail:{} ",detail);
+		Sku sku = new Sku();
+		sku.setSpuId(id);
+
+		// 查询库存量单位
+		List<Sku> list = skuMapper.select(sku);
+		logger.info("【SpuService.findById】查的sku:{} ",sku);
+		//组装集合
+		spu.setSpuDetail(detail);
+		spu.setSkus(list);
+
+		return spu;
+
+	}
+
 
 }

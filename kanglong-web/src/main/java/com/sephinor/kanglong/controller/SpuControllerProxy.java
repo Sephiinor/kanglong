@@ -108,6 +108,18 @@ public class SpuControllerProxy {
     }
 
 
+    /**
+     *  按照id查询商品
+     * @return
+     */
+    @GetMapping("/findById")
+    @ResponseBody
+    public Spu findById(@RequestParam("spuId") Long id){
+
+        return spuService.findById(id);
+    }
+
+
     //从map中提取布尔值
     private Boolean getBoolean(Map<String ,String[]> map,String key){
         String[] values= map.get(key);

@@ -48,4 +48,9 @@ public class SpuController {
 		logger.info("【SpuController.deleteById】的入参为: id:{} ",id);
 		spuService.deleteById(id);
 	}
+
+	@GetMapping("/findById")
+	public Spu findById(@RequestParam("id") Long id){
+		return spuService.findById(id);
+	}
 }

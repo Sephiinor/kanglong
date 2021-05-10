@@ -29,4 +29,12 @@ public interface SpuServiceApi {
      */
     @GetMapping("/spu/deleteById")
     void deleteById(@RequestParam("spuId") Long id);
+
+
+    /**
+     *  根据id查找spu
+     * @param id
+     */
+    @GetMapping("/spu/findById")
+    Spu findById(@RequestParam("id") Long id);
 }
