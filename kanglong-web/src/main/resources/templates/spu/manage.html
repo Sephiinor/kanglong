@@ -101,15 +101,11 @@
                                     <td class="center" th:text="${e.fullName}"></td>
                                     <td class="center" th:text="${e.brandName}"></td>
                                     <td class="center">
-                                        <a class="btn btn-success" href="#" th:data="${e.id}" onclick="viewBrand(this)">
-                                            <i class="glyphicon glyphicon-zoom-in icon-white"></i>
-                                            查看
-                                        </a>
-                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editBrand(this)">
+                                        <a class="btn btn-info" href="#" th:data="${e.id}" onclick="editSpu(this)">
                                             <i class="glyphicon glyphicon-edit icon-white" ></i>
                                             修改
                                         </a>
-                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteBrand(this)">
+                                        <a class="btn btn-danger" href="#" th:data="${e.id}" onclick="deleteSpu(this)">
                                             <i class="glyphicon glyphicon-trash icon-white"></i>
                                             删除
                                         </a>
@@ -622,28 +618,29 @@
     }
 
     //删除商品
-    function deleteBrand(a){
+    function deleteSpu(a){
         //提取商品id
-        var bid = $(a).attr("data")
+        var spuid = $(a).attr("data")
         $("#div_diag_confirm #a_btn_confirm_ok").click(function () {
-            $.get("/brand/deleteById?id=" + bid , function () {
+            $.get("/spu/deleteById?spuid=" + spuid , function () {
                 toast_success("删除成功!")
-            } )
+            } ).error(function (r) {
+                toast_failure(r.responseText)
+            })
         });
-
         $("#div_diag_confirm .modal-header").text("删除确认");
-        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+bid+"</b> 吗?");
+        $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+spuid+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
     }
 
     //查看商品
-    function viewBrand(a){
+    function viewSpu(a){
         //查询商品id
         var id = $(a).attr("data")
 
         //设置同步请求
         $.ajaxSettings.async=false
-        $.get("/brand/findbyid?id=" + id , function (brand) {
+        $.get("/spu/findbyid?id=" + id , function (brand) {
             $("#div_view_brand #span_id").text(brand.id) ;
             $("#div_view_brand #span_name").text(brand.name) ;
             $("#div_view_brand #img_image").attr("src" , brand.image) ;

@@ -38,4 +38,14 @@ public class SpuController {
 		spuService.saveOrUpdate(spu);
 		logger.info("【SpuController.saveOrUpdate】操作成功  spu:{} ",spu);
 	}
+
+	/**
+	 *  按照id删除spu
+	 * @param id
+	 */
+	@GetMapping("/deleteById")
+	public void deleteById(@RequestParam("spuid") Long id){
+		logger.info("【SpuController.deleteById】的入参为: id:{} ",id);
+		spuService.deleteById(id);
+	}
 }

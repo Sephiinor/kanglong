@@ -95,4 +95,19 @@ public class SpuService {
 
 	}
 
+
+	/**
+	 *  删除商品
+	 * @param id
+	 */
+	@Transactional
+	public void deleteById(Long id){
+		skuMapper.deleteBySpuId(id);
+		spuDetailMapper.deleteBySpuId(id);
+		spuMapper.deleteByPrimaryKey(id);
+
+
+	}
+
+
 }

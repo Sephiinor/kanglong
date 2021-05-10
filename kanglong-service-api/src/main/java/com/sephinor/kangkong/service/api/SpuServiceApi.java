@@ -7,6 +7,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -21,4 +22,11 @@ public interface SpuServiceApi {
 
     @PostMapping("/spu/saveOrUpdate")
     void saveOrUpdate(@RequestBody Spu spu);
+
+    /**
+     *  根据id删除spu
+     * @param id
+     */
+    @GetMapping("/spu/deleteById")
+    void deleteById(@RequestParam("spuid") Long id);
 }
