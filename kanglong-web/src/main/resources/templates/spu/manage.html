@@ -230,10 +230,8 @@
                             </form>
                         </div>
                         <div>
-                            c
                         </div>
                         <div>
-                            d
                         </div>
                     </div>
                     <!-- 新增/修改spu-起始 -->
@@ -315,7 +313,7 @@
                 $.get("/brand/findByCid?cid=" + cid, function (data) {
                     allBrands[cid] = data;
                 })
-                $.ajaxSettings.async = true
+                $.ajaxSettings.async = false
             }
             //组装商品下拉框
             for(var i = 0 ; i < allBrands[cid].length ; i ++){
@@ -459,107 +457,6 @@
         return JSON.stringify(obj) ;
     }
 
-    //渲染sku选项卡页面
-    function renderSkuTab(){
-        //存放sku对应的特殊规格的pid和值.
-        var sp = {}
-        //找出所有的特殊规格参数
-        $("#form_3 input[generic=false]").each(function(){
-            //空间类型
-            var type = $(this).attr("type")
-            //规格参数的id
-            var pid = $(this).attr("name")
-            //存放控件的值
-            var v = null ;
-            //复选框
-            if(type =='checkbox'){
-                //属性不在sp中
-                if(!(pid in sp)){
-                    sp[pid] = []
-                }
-                if($(this)[0].checked){
-                    sp[pid].push($(this).val()) ;
-                }
-            }
-            else{
-                v = $(this).val()
-                //放入sp集合中
-                sp[pid] = v.split(",")
-            }
-        }) ;
-
-        //生成笛卡尔积
-        var arr = []
-        //sku对应的特殊规格参数id集合
-        var keys = Object.keys(sp) ;
-        for(var i = 0 ; i < keys.length ; i ++){
-            //临时数组，引用原来的集合
-            var arr_temp = arr ;
-            arr = []
-            //规格参数id
-            var pid = keys[i] ;
-            var pvalues = sp[keys[i]] ;
-            //第一次迭代
-            if(arr_temp == null || arr_temp.length == 0){
-                for(var j = 0  ;  j < pvalues.length ; j ++){
-                    var tmp = {}
-                    tmp[pid] = pvalues[j] ;
-                    arr.push(tmp) ;
-                }
-            }
-            //不是第一次
-            else{
-                for(var j = 0 ; j < arr_temp.length ; j ++){
-                    var oldObj  = arr_temp[j] ;
-                    for (var k = 0; k < pvalues.length; k++) {
-                        var tmp = copyObj(oldObj) ;
-                        tmp[pid] = pvalues[k];
-                        arr.push(tmp);
-                    }
-                }
-            }
-        }
-        //渲染sku表格
-        var html = "<form id='form_4'><table>"
-        //表头
-        html = html + "<tr>"
-        for(var i = 0 ; i < keys.length ;  i ++ ){
-            html = html + "<td>"+pid_paramMap[keys[i]].name+"</td>"
-        }
-        html = html + "<td>标题</td>"
-        html = html + "<td>价格</td>"
-        html = html + "<td>库存</td>"
-        html = html + "<td>是否启用</td>"
-        html = html + "</tr>"
-        //表格内容
-        for(var i = 0 ; i < arr.length ; i ++){
-            html = html + "<tr>" ;
-            for(var j = 0 ; j < keys.length ; j ++){
-                html = html + "<td>"+arr[i][keys[j]]+pid_paramMap[keys[j]].unit + "</td>";
-            }
-            html = html + "<td>";
-            html = html +      "<input type='hidden' name='sku' value='" + JSON.stringify(arr[i]) + "'>";
-            html = html +      "<input type='text' name='"+JSON.stringify(arr[i])+".title'>" ;
-            html = html + "</td>"
-            html = html + "<td><input type='text' name='" + JSON.stringify(arr[i]) + ".price'></td>"
-            html = html + "<td><input type='text' name='" + JSON.stringify(arr[i]) + ".stock'></td>"
-            html = html + "<td><input type='checkbox' name='" + JSON.stringify(arr[i]) + ".enable' value='true' checked></td>"
-            html = html + "</tr>" ;
-        }
-        html = html + "</table></form>"
-        $("#wizard div.well #step4").empty();
-        $("#wizard div.well #step4").append(html);
-    }
-
-    //复制对象
-    function copyObj(a){
-        var copy = {}
-        var keys = Object.keys(a) ;
-        for(var i = 0 ; i < keys.length ; i ++){
-            copy[keys[i]] = a[keys[i]]
-        }
-        return copy ;
-    }
     //渲染sku选项卡页面
     function renderSkuTab(){
         //存放sku对应的特殊规格的pid和值.
@@ -779,6 +676,7 @@
                 toast_failure(r.responseText)
             })
         });
+
         $("#div_diag_confirm .modal-header").text("删除确认");
         $("#div_diag_confirm .modal-body").html("确认删除记录 <b>"+spuId+"</b> 吗?");
         $("#div_diag_confirm").modal("show");
@@ -808,19 +706,16 @@
         })
     }
 
-    //修改商品
+    //编辑商品
     function editSpu(a){
         var spuid = $(a).attr("data") ;
-        $.ajaxSettings.async = false
-        //设置同步请求
+        $.ajaxSettings.async = false                                    //设置同步请求
         $.get("/spu/findById?id=" + spuid , function(spu){
-            var cid3 = spu.cid3 ;
-            //取得品类
+            var cid3 = spu.cid3 ;                                       //取得品类
             //form_1
             $("#form_1 select[name=cid3]").val(cid3) ;
-            $("#form_1 select[name=cid3]").trigger("chosen:updated") ; //让值得以显示
-            $("#form_1 select[name=cid3]").change() ;
-            //触发改变事件，导致规格参数的页面变化
+            $("#form_1 select[name=cid3]").trigger("chosen:updated") ;  //让值得以显示
+            $("#form_1 select[name=cid3]").change() ;                   //触发改变事件，导致规格参数的页面变化
             $("#form_1 select[name=brandId]").val(spu.brandId) ;
             $("#form_1 select[name=brandId]").trigger("chosen:updated");
             $("#form_1 input[name=title]").val(spu.title) ;
@@ -828,11 +723,16 @@
             $("#form_1 input[name=saleable]").val(spu.saleable) ;
             $("#form_1 input[name=valid]").val(spu.valid) ;
             $("#form_1 input[name=packingList]").val(spu.spuDetail.packingList) ;
-            $("#form_1 input[name=afterService]").val(spu.spuDetail.afterService) ;//form_2
-            CKEDITOR.instances["description"].setData(spu.spuDetail.description) ;//form_3
-            setSpecParams(JSON.parse(spu.spuDetail.genericSpec)); //设置常规规格参数
-            setSpecParams(JSON.parse(spu.spuDetail.specialSpec)); //设置特殊规格参数
-            $("#wizard ol li:last-child").trigger("click")//触发点击，渲染sku选项卡列表
+            $("#form_1 input[name=afterService]").val(spu.spuDetail.afterService) ;
+
+            //form_2
+            CKEDITOR.instances["description"].setData(spu.spuDetail.description) ;
+
+            //form_3
+            setSpecParams(JSON.parse(spu.spuDetail.genericSpec)) ;           //设置常规规格参数
+            setSpecParams(JSON.parse(spu.spuDetail.specialSpec)) ;           //设置特殊规格参数
+            $("#wizard ol li:last-child").trigger("click")                   //触发点击，渲染sku选项卡列表
+
             //form_4
             for(var i = 0 ; i < spu.skus.length ; i ++){
                 var sku = spu.skus[i] ;
