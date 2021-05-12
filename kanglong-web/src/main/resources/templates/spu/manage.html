@@ -560,6 +560,157 @@
         }
         return copy ;
     }
+    //渲染sku选项卡页面
+    function renderSkuTab(){
+        //存放sku对应的特殊规格的pid和值.
+        var sp = {}
+        //找出所有的特殊规格参数
+        $("#form_3 input[generic=false]").each(function(){
+            //空间类型
+            var type = $(this).attr("type")
+            //规格参数的id
+            var pid = $(this).attr("name")
+            //存放控件的值
+            var v = null ;
+            //复选框
+            if(type =='checkbox'){
+                //属性不在sp中
+                if(!(pid in sp)){
+                    sp[pid] = []
+                }
+                if($(this)[0].checked){
+                    sp[pid].push($(this).val()) ;
+                }
+            }
+            else{
+                v = $(this).val()
+                //放入sp集合中
+                sp[pid] = v.split(",")
+            }
+        }) ;
+
+        //生成笛卡尔积
+        var arr = []
+        //sku对应的特殊规格参数id集合
+        var keys = Object.keys(sp) ;
+        for(var i = 0 ; i < keys.length ; i ++){
+            var paramId = keys[i] ;          //规格参数id
+            var paramValueArr = sp[paramId]  //参数值数组
+            var arr_temp = arr ;
+            arr = []
+            //首次迭代
+            if(arr_temp == null || arr_temp.length == 0 ){
+                for(var j = 0  ;  j < paramValueArr.length ; j++){
+                    //sku = {4:{index : 0 , label:红色} , 12 : {}}
+                    var sku = {} ;
+                    sku[paramId] = {}
+                    sku[paramId].index = j ;
+                    sku[paramId].label = paramValueArr[j];
+                    arr.push(sku) ;
+                }
+            }
+            //原来有内容
+            else{
+                for (var j = 0; j < paramValueArr.length; j++) {
+                    for(var k = 0 ; k < arr_temp.length ; k ++){
+                        var oldSku = arr_temp[k] ;
+                        //深度js对象
+                        var newSku = deepCopyObject(oldSku) ;
+                        newSku[paramId] = {}
+                        newSku[paramId].index = j ;
+                        newSku[paramId].label = paramValueArr[j] ;
+                        arr.push(newSku) ;
+                    }
+                }
+            }
+        }
+        //渲染sku表格
+        var html = "<form id='form_4'><table>"
+        //表头
+        html = html + "<tr>"
+        for(var i = 0 ; i < keys.length ;  i ++ ){
+            html = html + "<td>"+pid_paramMap[keys[i]].name+"</td>"
+        }
+        html = html + "<td>标题</td>"
+        html = html + "<td>价格</td>"
+        html = html + "<td>库存</td>"
+        html = html + "<td>是否启用</td>"
+        html = html + "</tr>"
+        //表格内容
+        for(var i = 0 ; i < arr.length ; i ++){
+            html = html + "<tr>" ;
+            var arrr = genIndexesAndOwnSpecStr(arr[i]) ;
+            var sku_ownSpec = arrr[0] ;
+            var sku_indexes = arrr[1] ;
+
+            for(var j = 0 ; j < keys.length ; j ++){
+                html = html + "<td>"+arr[i][keys[j]].label + "</td>";
+            }
+            html = html + "<td>";
+            html = html +      "<input type='hidden' name='sku' value='" + sku_indexes + "'>";
+            html = html +      "<input type='hidden' name='" + sku_indexes + ".id'>";
+            html = html +      "<input type='hidden' name='" + sku_indexes + ".ownSpec' value='"+sku_ownSpec+"'>";
+            html = html +      "<input type='text' name='"+ sku_indexes+".title'>" ;
+            html = html + "</td>"
+            html = html + "<td><input type='text' name='" + sku_indexes + ".price'></td>"
+            html = html + "<td><input type='text' name='" + sku_indexes + ".stock'></td>"
+            html = html + "<td><input type='checkbox' name='" + sku_indexes + ".enable' value='true' checked></td>"
+            html = html + "</tr>" ;
+        }
+        html = html + "</table></form>"
+        $("#wizard div.well #step4").empty();
+        $("#wizard div.well #step4").append(html);
+    }
+
+    //生成索引串和特殊规格串
+    function genIndexesAndOwnSpecStr(sku){
+        //提取所有规格参数ids
+        var paramIds = Object.keys(sku)
+        var indexes = "" ;
+        var obj = {}
+        for(var i = 0 ; i < paramIds.length ; i ++){
+            var index = sku[paramIds[i]].index ;
+            var label = sku[paramIds[i]].label ;
+            obj[paramIds[i]] = label ;
+            //不是最后一个pid
+            if(i != (paramIds.length - 1)){
+                indexes = indexes + index + "_"
+            }
+            else{
+                indexes = indexes + index
+            }
+        }
+        var ownSpec = JSON.stringify(obj) ;
+        return [ownSpec , indexes] ;
+    }
+
+    //深度复制对象,递归对整个对象图进行复制
+    function deepCopyObject(obj){
+        //对象类型
+        if(obj.__proto__.constructor.name == "Object"){
+            var copy = {}
+            var keys = Object.keys(obj) ;
+            for(var i = 0 ;i < keys.length ; i ++){
+                var key = keys[i] ;
+                var value = obj[key] ;
+                var newkey = deepCopyObject(key) ;
+                var newvalue = deepCopyObject(value) ;
+                copy[newkey] = newvalue ;
+            }
+            return copy ;
+        }
+        //数组类型
+        else if(obj.__proto__.constructor.name == "Array"){
+            var arr= []
+            for(var i = 0 ; i < obj.length ; i ++){
+                arr.push(deepCopyObject(obj[i])) ;
+            }
+            return arr;
+        }
+        else{
+            return obj ;
+        }
+    }
 
 
     //上传文件函数
@@ -658,33 +809,60 @@
     }
 
     //修改商品
-    function editBrand(a){
-        //查询商品id
-        var id = $(a).attr("data")
+    function editSpu(a){
+        var spuid = $(a).attr("data") ;
+        $.ajaxSettings.async = false
         //设置同步请求
-        $.ajaxSettings.async=false
-        $.get("/brand/findbyid?id=" + id , function (brand) {
-            $("#myModal #id").val(brand.id) ;
-            $("#myModal #name").val(brand.name) ;
-            $("#myModal #img_logo_preview").attr("src" , brand.image) ;
-            $("#myModal #firstLetter").val(brand.firstLetter) ;
-        })
-        $.ajaxSettings.async = true
-
-        //查询商品所属的品类集合
-
-        $.get("/category/findbybid?bid=" + id , function (list) {
-            var arr = new Array(list.length) ;
-            for(var i = 0 ; i < list.length ; i ++){
-                arr[i] = list[i].id
+        $.get("/spu/findById?id=" + spuid , function(spu){
+            var cid3 = spu.cid3 ;
+            //取得品类
+            //form_1
+            $("#form_1 select[name=cid3]").val(cid3) ;
+            $("#form_1 select[name=cid3]").trigger("chosen:updated") ; //让值得以显示
+            $("#form_1 select[name=cid3]").change() ;
+            //触发改变事件，导致规格参数的页面变化
+            $("#form_1 select[name=brandId]").val(spu.brandId) ;
+            $("#form_1 select[name=brandId]").trigger("chosen:updated");
+            $("#form_1 input[name=title]").val(spu.title) ;
+            $("#form_1 input[name=subTitle]").val(spu.subTitle) ;
+            $("#form_1 input[name=saleable]").val(spu.saleable) ;
+            $("#form_1 input[name=valid]").val(spu.valid) ;
+            $("#form_1 input[name=packingList]").val(spu.spuDetail.packingList) ;
+            $("#form_1 input[name=afterService]").val(spu.spuDetail.afterService) ;//form_2
+            CKEDITOR.instances["description"].setData(spu.spuDetail.description) ;//form_3
+            setSpecParams(JSON.parse(spu.spuDetail.genericSpec)); //设置常规规格参数
+            setSpecParams(JSON.parse(spu.spuDetail.specialSpec)); //设置特殊规格参数
+            $("#wizard ol li:last-child").trigger("click")//触发点击，渲染sku选项卡列表
+            //form_4
+            for(var i = 0 ; i < spu.skus.length ; i ++){
+                var sku = spu.skus[i] ;
+                $("#form_4 input[name='"+sku.indexes+".id]'").val(sku.id) ;
+                $("#form_4 input[name='"+sku.indexes+".title']").val(sku.title) ;
+                $("#form_4 input[name='"+sku.indexes+".price']").val(sku.price) ;
+                $("#form_4 input[name='"+sku.indexes+".stock']").val(sku.stock) ;
+                $("#form_4 input[name='"+sku.indexes+".enable']").val(sku.enable) ;
             }
-            //设置selector的值
-            $("#myModal form #sel_cids").val(arr)
-            //触发选中事件
-            $("#myModal form #sel_cids").trigger("chosen:updated")
             $("#myModal").modal("show")
         })
     }
+
+
+    //设置规格参数
+    function setSpecParams(obj) {
+        var paramIds = Object.keys(obj) ;
+        for(var i = 0 ; i < paramIds.length ; i ++){
+            var paramId = paramIds[i] ;
+            //判断规格参数是否有候选值，候选值使用的是checkbox
+            if(pid_paramMap[paramId].segments != null && pid_paramMap[paramId].segments != ''){
+                $("#form_3 input[name="+paramId+"]").val(obj[paramId]) ;
+            } else{
+                $("#form_3 input[name=" + paramId + "]").val(obj[paramId]);
+            }
+        }
+    }
+
+
+
 </script>
 <script th:src="@{/wizard/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/wizard/js/bwizard.min.js}" type="text/javascript"></script>
