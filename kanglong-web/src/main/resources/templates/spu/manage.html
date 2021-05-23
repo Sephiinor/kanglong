@@ -689,7 +689,7 @@
 
         //设置同步请求
         $.ajaxSettings.async=false
-        $.get("/spu/findById?id=" + id , function (brand) {
+        $.get("/spu/findById?spuId=" + id , function (brand) {
             $("#div_view_brand #span_id").text(brand.id) ;
             $("#div_view_brand #span_name").text(brand.name) ;
             $("#div_view_brand #img_image").attr("src" , brand.image) ;
