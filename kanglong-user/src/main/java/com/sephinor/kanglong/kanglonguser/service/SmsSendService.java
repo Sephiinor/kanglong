@@ -9,7 +9,8 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ import java.util.Map;
  */
 @Service
 public class SmsSendService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SmsSendService.class);
 
     //短信发送域名
     @Value("${aliyun.sms.domain}")
@@ -46,20 +49,24 @@ public class SmsSendService {
     @Value("${aliyun.sms.regionId}")
     private  String regionId;
 
-    Gson Json = new Gson();
 
     /**
      * 发送短信
      * @return
      */
-    public SendSmsResponse sendSms(String phone , String code , String signName, String template) throws ClientException {
+    public SendSmsResponse sendSms(String phone , String code , String signName, String template)  {
         //可自主调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout","10000");
         System.setProperty("sun.net.client.defaultConnectTimeout","10000");
 
         //初始化acsClient ,暂不支持region
         IClientProfile profile = DefaultProfile.getProfile(regionId,accessKeyId,accessKeySecret);
-        DefaultProfile.addEndpoint(regionId,regionId,product,domain);
+        try {
+            DefaultProfile.addEndpoint(regionId,regionId,product,domain);
+        } catch (ClientException e) {
+            logger.info("初始化acsClient失败");
+            e.printStackTrace();
+        }
         IAcsClient acsClient = new DefaultAcsClient(profile);
 
         //组装请求对象 - 具体描述控制台
@@ -85,7 +92,13 @@ public class SmsSendService {
         request.setOutId("123456");
 
         //hint
-        SendSmsResponse response = acsClient.getAcsResponse(request);
+        SendSmsResponse response = null;
+        try {
+            response = acsClient.getAcsResponse(request);
+        } catch (ClientException e) {
+            logger.info("acsClient接收响应失败");
+            e.printStackTrace();
+        }
 
         return response;
 
