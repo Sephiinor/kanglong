@@ -1,5 +1,6 @@
 package com.sephinor.kanglong.kanglonguser.controller;
 
+import com.sephinor.common.entity.User;
 import com.sephinor.kanglong.kanglonguser.service.SmsSendService;
 import com.sephinor.kanglong.kanglonguser.service.UserService;
 import com.sephinor.kanglong.kanglonguser.utils.Helper;
@@ -61,5 +62,12 @@ public class UserController {
 
     }
 
+    @PostMapping("/register")
+    public boolean register(User user, @RequestParam("code")String verifyCode){
+        logger.info( "UserController.register 入参为" + "user = [" + user + "], verifyCode = [" + verifyCode + "]");
+        
+        return userService.register(user, verifyCode);
+
+    }
 
 }
