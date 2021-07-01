@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello , vue!</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" v-bind:title="mytitle">
+        {{ message }}<br>
+        <p v-if="visible">这是这一个段落！</p>
+        <ul>
+            <li v-for="x in books">{{x.name}}</li>
+        </ul>
+        <button v-on:click="myclick()">点击我</button><br>
+        <input type="text" v-model="message">
+    </div>
+    <script language="javascript">
+        var app = new Vue({
+            el : '#app' ,
+            data : {
+                message : 'hello Vue!!!' ,
+                mytitle : 'this is my title!!!' ,
+                visible : true ,
+                books : [
+                    {name : '学习bigdata'} ,
+                    {name : '学习Vue'} ,
+                    {name : '学习JEE'}
+                ]
+            } ,
+            methods : {
+                myclick : function(){
+                    this.message = this.message.split('').reverse().join('')
+                    this.books = [{name:'学习hadoop'}]
+                }
+            }
+        })
+    </script>
+</body>
+</html>

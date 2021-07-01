@@ -70,4 +70,15 @@ public class UserController {
 
     }
 
+    /**
+     *  查询用户
+     * @return
+     */
+    @GetMapping("/query")
+    public User query(@RequestParam("username") String username , @RequestParam String password){
+
+       return userService.query(username,password);
+
+    }
+
 }

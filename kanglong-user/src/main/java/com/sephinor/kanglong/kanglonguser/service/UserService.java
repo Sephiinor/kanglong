@@ -64,4 +64,11 @@ public class UserService {
         return result;
 
     }
+
+    public User query(String username ,String password) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
+        return userMapper.selectOne(user);
+    }
 }
